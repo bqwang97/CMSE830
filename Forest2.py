@@ -112,8 +112,8 @@ df_forest['quarter'] = df_forest['quarter'].astype('category')
 color_map1 = {
     'Q1: Jan-Mar': "red",     
     'Q2: Apr-Jun': "blue",    
-    'Q3: Jul-Sep': "green",   
-    'Q4: Oct-Dec': "purple" }
+    'Q3: Jul-Sep': "orange",   
+    'Q4: Oct-Dec': "cyan" }
 fig = px.scatter(df_forest, 
                  x="temp", 
                  y="Logarea", 
