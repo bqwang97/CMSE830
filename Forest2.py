@@ -108,11 +108,12 @@ st.pyplot(fig)
 
 ###################################################################################################
 st.header("3D Distribution of Fires within the Montesinho park vs Quarter") #write figure title
-
+st.markdown('<p class="font_text"> The 3D spatial distribution of fires related to quarters can reveal the distribution of fires for different time period. </p>', unsafe_allow_html=True)
 fig=px.scatter_3d(df_forest, x='X', y='Y', z="Logarea",color="quarter")
 st.plotly_chart(fig)
 ###################################################################################################
 st.header("Temperature vs. Burned Area in Forest Fires")
+st.markdown('<p class="font_text">  </p>', unsafe_allow_html=True)
 df_forest['quarter'] = df_forest['quarter'].astype('category')
 color_map1 = {
     'Q1: Jan-Mar': "red",     
