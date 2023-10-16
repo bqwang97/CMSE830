@@ -76,7 +76,7 @@ if "Scatter Plot" in selected_plots:
 if "JointPlot" in selected_plots:
     st.subheader("Jointplot")
     plt.figure(figsize=(8, 6))
-    sns.jointplot(data=df_forest, x=x_variable, y=y_variable, kind="reg", color="#eccd13")
+    sns.jointplot(data=df_forest, x=x_variable, y=y_variable, kind="reg", color="g")
     #plt.title(f"Jointplot of {x_variable} vs {y_variable}")
     st.pyplot(plt)
 
@@ -112,7 +112,7 @@ color_map = {
     1: "red",     
     2: "blue",    
     3: "green",   
-    4: "purple" }
+    4: "grey" }
 fig = px.scatter(df_forest, 
                  x="temp", 
                  y="Logarea", 
