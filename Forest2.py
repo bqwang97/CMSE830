@@ -71,8 +71,8 @@ selected_plots = st.multiselect("Select Plots to Display",
 if "Scatter Plot" in selected_plots:
     st.subheader("Scatter Plot")
     plt.figure(figsize=(8, 6))
+    sns.set_style("darkgrid")
     sns.scatterplot(data=df_forest, x=x_variable, y=y_variable,color = 'red')
-    plt.grid()
     plt.title(f"Scatter plot between {x_variable} and {y_variable}")
     st.pyplot(plt)
 
