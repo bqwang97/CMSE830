@@ -108,17 +108,18 @@ fig=px.scatter_3d(df_forest, x='X', y='Y', z="Logarea",color="quarter")
 st.plotly_chart(fig)
 ###################################################################################################
 st.header("Temperature vs. Burned Area in Forest Fires")
-color_map = {
+color_map1 = {
     1: "red",     
-    2: "blue",    
+    2: "pink",    
     3: "green",   
-    4: "grey" }
+    4: "blue" }
 fig = px.scatter(df_forest, 
                  x="temp", 
                  y="Logarea", 
                  color="quarter",
                  size="Logarea",
-                 hover_data=['wind', 'rain'])
+                 hover_data=['wind', 'rain'],
+                 color_discrete_map= color_map1)
                  #title="Temperature vs. Burned Area in Forest Fires")
 st.plotly_chart(fig)
 ###################################################################################################
