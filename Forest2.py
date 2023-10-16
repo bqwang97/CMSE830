@@ -118,8 +118,7 @@ fig = px.scatter(df_forest,
                  y="Logarea", 
                  color="quarter",
                  size="Logarea",
-                 hover_data=['wind', 'rain'],
-                 color_discrete_map= color_map)
+                 hover_data=['wind', 'rain'])
                  #title="Temperature vs. Burned Area in Forest Fires")
 st.plotly_chart(fig)
 ###################################################################################################
