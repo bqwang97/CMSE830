@@ -108,6 +108,7 @@ fig=px.scatter_3d(df_forest, x='X', y='Y', z="Logarea",color="quarter")
 st.plotly_chart(fig)
 ###################################################################################################
 st.header("Temperature vs. Burned Area in Forest Fires")
+df_forest['quarter'] = df_forest['quarter'].astype('category')
 color_map1 = {
     'Q1: Jan-Mar': "red",     
     'Q2: Apr-Jun': "blue",    
