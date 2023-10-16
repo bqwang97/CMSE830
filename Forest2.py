@@ -131,7 +131,7 @@ option2 = st.selectbox('Feature 2', ('FFMC','DMC','DC','ISI','temp','RH','wind',
 
 fig = px.density_contour(df_forest, x=option1, y= option2, z='area',histfunc="avg",
                          labels={'area': 'Burned Area'},width=800, height=600)
-fig.update_traces(contours_coloring="fill", contours_showlabels = True,colorscale='Sunset')
+fig.update_traces(contours_coloring="fill", contours_showlabels = True,colorscale='Spectral')
 st.plotly_chart(fig)
 ####################################################################################################################################################################
 #Reference
