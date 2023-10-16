@@ -113,7 +113,7 @@ color_map1 = {
     'Q1: Jan-Mar': "red",     
     'Q2: Apr-Jun': "blue",    
     'Q3: Jul-Sep': "orange",   
-    'Q4: Oct-Dec': "cyan" }
+    'Q4: Oct-Dec': "pink" }
 fig = px.scatter(df_forest, 
                  x="temp", 
                  y="Logarea", 
