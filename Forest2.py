@@ -6,13 +6,43 @@ import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 import plotly.express as px
 
+st.set_option('deprecation.showPyplotGlobalUse', False)
+st.set_page_config(layout="wide")
+##################################################################################################################################################################
+
+st.markdown(""" <style> .font_title {
+font-size:50px ; font-family: 'times '; color: black;text-align: center;} 
+</style> """, unsafe_allow_html=True)
+
+st.markdown(""" <style> .font_header {
+font-size:50px ; font-family: "Times New Roman"; color: black;text-align: left;} 
+</style> """, unsafe_allow_html=True)
+
+st.markdown(""" <style> .font_subheader {
+font-size:35px ; font-family: "Times New Roman" ; color: black;text-align: left;} 
+</style> """, unsafe_allow_html=True)
+
+st.markdown(""" <style> .font_subsubheader {
+font-size:28px ; font-family: "Times New Roman" ; color: black;text-align: left;} 
+</style> """, unsafe_allow_html=True)
+
+st.markdown(""" <style> .font_text {
+font-size:22px ; font-family: "Times New Roman" ; color: black;text-align: left;} 
+</style> """, unsafe_allow_html=True)
+
+st.markdown(""" <style> .font_subtext {
+font-size:18px ; font-family: "Times New Roman" ; color: black;text-align: center;} 
+</style> """, unsafe_allow_html=True)
+
+####################################################################################################################################################################
+
 st.title("Explore the Forestfires Data")
 
 st.image("https://www.greenpeace.org/static/planet4-international-stateless/2022/09/fbc851c4-gp1szphr_.jpg")
 st.markdown('<p class="font_text">Considering the global warming, the increasing forest fires are more and more serious. </p>', unsafe_allow_html=True)
 st.markdown('<p class="font_text">The primary goal of analysis of dataset "Forestfires" is to understand the interplay of various meteorological and spatial factors the influence forest fires occurrence and magnitude. By doing so, we aim to answer the questions below: What are the most influential determinants that lead to forest fires, and how could we predict future outbreaks and spread of these fires? If we can solve these problems, we can take preventive measures to minimize the air pollution and surrounding damage caused by forest fires.</p>', unsafe_allow_html=True)
 
-
+####################################################################################################################################################################
 
 df_forest = pd.read_csv("forestfires.csv") # load data
 def month_to_quarter(month):
