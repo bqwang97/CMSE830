@@ -109,10 +109,10 @@ st.plotly_chart(fig)
 ###################################################################################################
 st.header("Temperature vs. Burned Area in Forest Fires")
 color_map1 = {
-    1: "red",     
-    2: "pink",    
-    3: "green",   
-    4: "blue" }
+    'Q1: Jan-Mar': "red",     
+    'Q2: Apr-Jun': "blue",    
+    'Q3: Jul-Sep': "green",   
+    'Q4: Oct-Dec': "purple" }
 fig = px.scatter(df_forest, 
                  x="temp", 
                  y="Logarea", 
