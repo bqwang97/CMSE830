@@ -1,0 +1,109 @@
+import streamlit as st
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+from mpl_toolkits.mplot3d import Axes3D
+import plotly.express as px
+
+st.title("Explore the Forestfires Data")
+
+st.image("https://www.greenpeace.org/static/planet4-international-stateless/2022/09/fbc851c4-gp1szphr_.jpg")
+st.markdown('<p class="font_text">Considering the global warming, the increasing forest fires are more and more serious. </p>', unsafe_allow_html=True)
+st.markdown('<p class="font_text">The primary goal of analysis of dataset "Forestfires" is to understand the interplay of various meteorological and spatial factors the influence forest fires occurrence and magnitude. By doing so, we aim to answer the questions below: What are the most influential determinants that lead to forest fires, and how could we predict future outbreaks and spread of these fires? If we can solve these problems, we can take preventive measures to minimize the air pollution and surrounding damage caused by forest fires.</p>', unsafe_allow_html=True)
+
+
+
+df_forest = pd.read_csv("forestfires.csv") # load data
+def month_to_quarter(month):
+    if month in ['jan', 'feb', 'mar']:
+        return 'Q1: Jan-Mar'
+    elif month in ['apr', 'may', 'jun']:
+        return 'Q2: Apr-Jun'
+    elif month in ['jul', 'aug', 'sep']:
+        return 'Q3: Jul-Sep'
+    else:
+        return 'Q4: Oct-Dec'
+df_forest['quarter'] = df_forest['month'].apply(month_to_quarter)
+df_forest['Logarea'] = np.log1p(df_forest['area'])
+
+st.header("Let's explore a sample of the dataset") # prints in web app
+st.dataframe(df_forest.head()) # prints head in web app
+
+st.header("Select X and Y Variables for the 'Forestfires' Dataset")
+x_variable = st.selectbox("X Variable", df_forest.drop(columns=['X', 'Y']).columns)
+y_variable = st.selectbox("Y Variable", df_forest.drop(columns=['X', 'Y']).columns)
+selected_plots = st.multiselect("Select Plots to Display",
+                                ["Scatter Plot","JointPlot","Heatmap","Histogram"],
+                                default=["Scatter Plot"])
+
+if "Scatter Plot" in selected_plots:
+    st.subheader("Scatter Plot")
+    plt.figure(figsize=(8, 6))
+    sns.scatterplot(data=df_forest, x=x_variable, y=y_variable,color = 'red')
+    plt.title(f"Scatter plot between {x_variable} and {y_variable}")
+    st.pyplot(plt)
+
+if "JointPlot" in selected_plots:
+    st.subheader("Jointplot")
+    plt.figure(figsize=(8, 6))
+    sns.jointplot(data=df_forest, x=x_variable, y=y_variable, kind="reg", color="#eccd13")
+    #plt.title(f"Jointplot of {x_variable} vs {y_variable}")
+    st.pyplot(plt)
+
+if "Heatmap" in selected_plots:
+    st.subheader("Heatmap")
+    plt.figure(figsize=(10, 7))
+    df_forestf1 = df_forest.drop(['X','Y','month','day'],axis =1)
+    sns.heatmap(df_forestf1.corr(), annot=True, cmap='coolwarm', fmt=".2f")
+    plt.title("Feature Correlation Heatmap")
+    st.pyplot(plt)
+
+if "Histogram" in selected_plots:
+    st.subheader("Histogram with Normal Distribution")
+    plt.figure(figsize=(8, 6))
+    sns.histplot(df_forest[x_variable], kde=True)
+    st.pyplot(plt)
+
+###################################################################################################
+st.header("Spatial Distribution of Fires within the Montesinho park") #write figure title
+
+fig, ax = plt.subplots(figsize=(11, 9))
+sns.scatterplot(df_forest, x='X', y='Y', hue="Logarea", size="Logarea",sizes=(50,500))
+st.pyplot(fig)
+
+###################################################################################################
+st.header("3D Distribution of Fires within the Montesinho park vs Quarter") #write figure title
+
+fig=px.scatter_3d(df_forest, x='X', y='Y', z="Logarea",color="quarter")
+st.plotly_chart(fig)
+###################################################################################################
+st.header("Temperature vs. Burned Area in Forest Fires")
+color_map = {
+    1: "red",     
+    2: "blue",    
+    3: "green",   
+    4: "purple" }
+fig = px.scatter(df_forest, 
+                 x="temp", 
+                 y="Logarea", 
+                 color="quarter",
+                 size="Logarea",
+                 hover_data=['wind', 'rain'],
+                 color_discrete_map= color_map)
+                 #title="Temperature vs. Burned Area in Forest Fires")
+st.plotly_chart(fig)
+###################################################################################################
+st.header("Contour Plot Showing Influence on Burned Area")
+
+option1 = st.selectbox('Feature 1', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =1)
+option2 = st.selectbox('Feature 2', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =2)
+
+fig = px.density_contour(df_forest, x=option1, y= option2, z='area',histfunc="avg",
+                         labels={'area': 'Burned Area'},width=800, height=600)
+fig.update_traces(contours_coloring="fill", contours_showlabels = True)
+st.plotly_chart(fig)
+####################################################################################################################################################################
+#Reference
+st.markdown('<p class="font_header">References: </p>', unsafe_allow_html=True)
+st.markdown('<p class="font_text">1) Cortez, P., & Morais, A. D. J. R. (2007). A data mining approach to predict forest fires using meteorological data. </p>', unsafe_allow_html=True)
