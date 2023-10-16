@@ -62,6 +62,8 @@ st.markdown('<p class="font_text"> We choose the "Forestfires" dataset from UCI.
 st.dataframe(df_forest.head()) # prints head in web app
 
 st.header("Select X and Y Variables for the 'Forestfires' Dataset")
+
+st.markdown('<p class="font_text"> Several visualization are developed to study possible existing trend between different features of the dataset. </p>', unsafe_allow_html=True)
 x_variable = st.selectbox("X Variable", df_forest.drop(columns=['X', 'Y']).columns)
 y_variable = st.selectbox("Y Variable", df_forest.drop(columns=['X', 'Y']).columns)
 selected_plots = st.multiselect("Select Plots to Display",
@@ -99,7 +101,7 @@ if "Histogram" in selected_plots:
 
 ###################################################################################################
 st.header("Spatial Distribution of Fires within the Montesinho park") #write figure title
-
+st.markdown('<p class="font_text"> The spatial distribution of fires within the Montesinho Park is very important to investigate the fire trends. From the scatter plot we could see the location where the fire happens. </p>', unsafe_allow_html=True)
 fig, ax = plt.subplots(figsize=(11, 9))
 sns.scatterplot(df_forest, x='X', y='Y', hue="Logarea", size="Logarea",sizes=(50,500))
 st.pyplot(fig)
