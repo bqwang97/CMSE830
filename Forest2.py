@@ -131,7 +131,7 @@ fig = px.scatter(df_forest,
 st.plotly_chart(fig)
 ###################################################################################################
 st.header("Contour Plot Showing Influence on Burned Area")
-st.markdown('<p class="font_text"> From the previous visualization, the direct relationship between weather indicators and the extent of burned areas wasn't immediately clear. Hence, we decided to focus on pairs of weather features, visualizing them through 2D contour plots. This approach aims to provide a clearer perspective on their combined influence on forest fires. </p>', unsafe_allow_html=True)
+st.markdown("<p class="font_text"> From the previous visualization, the direct relationship between weather indicators and the extent of burned areas wasn't immediately clear. Hence, we decided to focus on pairs of weather features, visualizing them through 2D contour plots. This approach aims to provide a clearer perspective on their combined influence on forest fires. </p>", unsafe_allow_html=True)
 option1 = st.selectbox('Feature 1', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =1)
 option2 = st.selectbox('Feature 2', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =2)
 
