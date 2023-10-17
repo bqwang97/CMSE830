@@ -113,7 +113,7 @@ fig=px.scatter_3d(df_forest, x='X', y='Y', z="Logarea",color="quarter")
 st.plotly_chart(fig)
 ###################################################################################################
 st.header("Temperature vs. Burned Area in Forest Fires")
-st.markdown('<p class="font_text"> When we visualize the relationship between the burned area and temperature, it's evident that as the temperature rises, the area affected by fires tends to increase. Additionally, by segmenting the data into different quarters, we can gain insights into how fire occurrences vary across specific months. </p>', unsafe_allow_html=True)
+st.markdown("<p class="font_text"> When we visualize the relationship between the burned area and temperature, it's evident that as the temperature rises, the area affected by fires tends to increase. Additionally, by segmenting the data into different quarters, we can gain insights into how fire occurrences vary across specific months. </p>", unsafe_allow_html=True)
 df_forest['quarter'] = df_forest['quarter'].astype('category')
 color_map1 = {
     'Q1: Jan-Mar': "red",     
