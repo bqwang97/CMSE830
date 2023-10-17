@@ -108,12 +108,12 @@ st.pyplot(fig)
 
 ###################################################################################################
 st.header("3D Distribution of Fires within the Montesinho park vs Quarter") #write figure title
-st.markdown('<p class="font_text"> The 3D spatial distribution of fires related to quarters can reveal the distribution of fires for different time period. </p>', unsafe_allow_html=True)
+st.markdown('<p class="font_text"> This visualization effectively communicates the spatial distribution of forest fires throughout different times of the year, emphasizing the significance of the third quarter (July to September) in the frequency of fires. </p>', unsafe_allow_html=True)
 fig=px.scatter_3d(df_forest, x='X', y='Y', z="Logarea",color="quarter")
 st.plotly_chart(fig)
 ###################################################################################################
 st.header("Temperature vs. Burned Area in Forest Fires")
-st.markdown('<p class="font_text">  </p>', unsafe_allow_html=True)
+st.markdown('<p class="font_text"> When we visualize the relationship between the burned area and temperature, it's evident that as the temperature rises, the area affected by fires tends to increase. Additionally, by segmenting the data into different quarters, we can gain insights into how fire occurrences vary across specific months. </p>', unsafe_allow_html=True)
 df_forest['quarter'] = df_forest['quarter'].astype('category')
 color_map1 = {
     'Q1: Jan-Mar': "red",     
@@ -131,7 +131,7 @@ fig = px.scatter(df_forest,
 st.plotly_chart(fig)
 ###################################################################################################
 st.header("Contour Plot Showing Influence on Burned Area")
-
+st.markdown('<p class="font_text"> From the previous visualization, the direct relationship between weather indicators and the extent of burned areas wasn't immediately clear. Hence, we decided to focus on pairs of weather features, visualizing them through 2D contour plots. This approach aims to provide a clearer perspective on their combined influence on forest fires. </p>', unsafe_allow_html=True)
 option1 = st.selectbox('Feature 1', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =1)
 option2 = st.selectbox('Feature 2', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =2)
 
