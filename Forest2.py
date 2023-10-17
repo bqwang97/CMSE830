@@ -7,7 +7,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import plotly.express as px
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
-#st.set_page_config(layout="wide")
+##st.set_page_config(layout="wide")
 ##################################################################################################################################################################
 st.markdown(""" <style> .font_title {
 font-size:50px ; font-family: 'times '; color: black;text-align: center;} 
