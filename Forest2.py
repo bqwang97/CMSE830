@@ -103,12 +103,13 @@ if "Histogram" in selected_plots:
     sns.histplot(df_forest[x_variable], kde=True)
     col2b.pyplot(plt)
 
+col2.divider()
 ###################################################################################################
-st.header("Spatial Distribution of Fires within the Montesinho park") #write figure title
-st.markdown('<p class="font_text"> The spatial distribution of fires within the Montesinho Park is very important to investigate the fire trends. From the scatter plot we could see the location where the fire happens. </p>', unsafe_allow_html=True)
+col1.header("Spatial Distribution of Fires within the Montesinho park") #write figure title
+col1.markdown('<p class="font_text"> The spatial distribution of fires within the Montesinho Park is very important to investigate the fire trends. From the scatter plot we could see the location where the fire happens. </p>', unsafe_allow_html=True)
 fig, ax = plt.subplots(figsize=(11, 9))
 sns.scatterplot(df_forest, x='X', y='Y', hue="Logarea", size="Logarea",sizes=(50,500))
-st.pyplot(fig)
+col2.pyplot(fig)
 
 ###################################################################################################
 st.header("3D Distribution of Fires within the Montesinho park vs Quarter") #write figure title
