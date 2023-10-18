@@ -107,17 +107,17 @@ col2.divider()
 ###################################################################################################
 col1.header("Spatial Distribution of Fires within the Montesinho park") #write figure title
 col1.markdown('<p class="font_text"> The spatial distribution of fires within the Montesinho Park is very important to investigate the fire trends. From the scatter plot we could see the location where the fire happens. </p>', unsafe_allow_html=True)
-fig, ax = plt.subplots(figsize=(6,5))
+col1.markdown('<p class="font_text"> The visualizations effectively communicate the spatial distribution of forest fires throughout different times of the year, emphasizing the significance of the third quarter (July to September) in the frequency of fires. </p>', unsafe_allow_html=True)
+
+col2a, col2b = col2.columns(2)
+fig, ax = plt.subplots(figsize=(8,6))
 sns.scatterplot(df_forest, x='X', y='Y', hue="Logarea", size="Logarea",sizes=(50,500))
-col2.pyplot(fig)
+col2a.subheader("2D Distribution of Burned Area")
+col2a.pyplot(fig)
 
-col2.divider()
-###################################################################################################
-col1.markdown('<p class="font_text"> This visualization effectively communicates the spatial distribution of forest fires throughout different times of the year, emphasizing the significance of the third quarter (July to September) in the frequency of fires. </p>', unsafe_allow_html=True)
-
-col2.header("3D Distribution of Fires within the Montesinho park vs Quarter") #write figure title
+col2b.subheader("3D Distribution of Fires within the Montesinho park vs Quarter") #write figure title
 fig=px.scatter_3d(df_forest, x='X', y='Y', z="Logarea",color="quarter")
-col2.plotly_chart(fig)
+col2b.plotly_chart(fig)
 
 col2.divider()
 ###################################################################################################
@@ -141,10 +141,11 @@ col2.plotly_chart(fig)
 
 col2.divider()
 ###################################################################################################
-col2a,col2b = col2.columns([1,2])
+
 col2.header("Contour Plot Showing Influence on Burned Area")
 col2.markdown('<p class="font_text"> From the previous visualization, the direct relationship between weather indicators and the extent of burned areas was not immediately clear. Hence, we decided to focus on pairs of weather features, visualizing them through 2D contour plots. This approach aims to provide a clearer perspective on their combined influence on forest fires. </p>', unsafe_allow_html=True)
 
+col2a,col2b = col2.columns([1,2])
 option1 = col2a.selectbox('Feature 1', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =1)
 option2 = col2a.selectbox('Feature 2', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =2)
 
