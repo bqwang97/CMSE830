@@ -33,7 +33,7 @@ st.markdown(""" <style> .font_subtext {
 font-size:18px ; font-family: "Times New Roman" ; color: black;text-align: center;} 
 </style> """, unsafe_allow_html=True)
 ####################################################################################################################################################################
-st.title("Explore the Forestfires Data")
+st.title("Explore the Forest Fires Dataset")
 col1, col2= st.columns([1,3])
 col1.subheader("Background")
 col1.markdown('<p class="font_text">Considering the global warming, the increasing forest fires are more and more serious. </p>', unsafe_allow_html=True)
