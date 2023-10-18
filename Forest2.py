@@ -55,48 +55,53 @@ def month_to_quarter(month):
 df_forest['quarter'] = df_forest['month'].apply(month_to_quarter)
 df_forest['Logarea'] = np.log1p(df_forest['area'])
 
-col1.header("Let's explore a sample of the dataset")
+
+col1.subheader("Dataset Description ")
 col1.markdown('<p class="font_text"> We choose the "Forestfires" dataset from UCI. This datasets provides a comprehensive view of both meteorological and spatial factors within the Montesinho park map, allowing for a detailed analysis of how these elements correlate with the extent of forest fires. The forestfires dataset originates from the Montesinho natural park and includes several parameters:* Spatial Coordinates: X and Y axis spatial coordinates within the park.* Time Factors: Month and day of the week* Fire weather Index System Parameters: Include FFMC(index of the moisture content of surface litter), DMC(index of the moisture content of organic layers), DC(index of the moisture content of deep, compact organic layers) and ISI(index of the expected rate of fire spread) indices.* Meteorological Data: Temperature (in Celsius), relative humidity (%), wind speed (km/h), and outside rain (mm/m^2).* Outcome Variable: Burned area of the forest (in ha). </p>', unsafe_allow_html=True)
 
+col2.header("Let's explore the dataset")
 col2.dataframe(df_forest.head()) # prints head in web app
 
-col1.header("Select X and Y Variables for the 'Forestfires' Dataset")
-col1.markdown('<p class="font_text"> Several visualization are developed to study possible existing trend between different features of the dataset. </p>', unsafe_allow_html=True)
+col2.divider()
+##############################################################################################################################################
+col2.header("Select X and Y Variables for the 'Forestfires' Dataset")
+col2.markdown('<p class="font_text"> Several visualization are developed to study possible existing trend between different features of the dataset. </p>', unsafe_allow_html=True)
 
-x_variable = col1.selectbox("X Variable", df_forest.drop(columns=['X', 'Y']).columns)
-y_variable = col1.selectbox("Y Variable", df_forest.drop(columns=['X', 'Y']).columns)
-selected_plots = col1.multiselect("Select Plots to Display",
+col2a, col2b = col2.columns([1,2])
+x_variable = col2a.selectbox("X Variable", df_forest.drop(columns=['X', 'Y']).columns)
+y_variable = col2a.selectbox("Y Variable", df_forest.drop(columns=['X', 'Y']).columns)
+selected_plots = col2a.multiselect("Select Plots to Display",
                                 ["Scatter Plot","JointPlot","Heatmap","Histogram"],
                                 default=["Scatter Plot"])
 
 if "Scatter Plot" in selected_plots:
-    st.subheader("Scatter Plot")
+    col2b.subheader("Scatter Plot")
     plt.figure(figsize=(8, 6))
     sns.set_style("darkgrid")
     sns.scatterplot(data=df_forest, x=x_variable, y=y_variable,color = 'red')
-    plt.title(f"Scatter plot between {x_variable} and {y_variable}")
-    col2.pyplot(plt)
+    ##plt.title(f"Scatter plot between {x_variable} and {y_variable}")
+    col2b.pyplot(plt)
 
 if "JointPlot" in selected_plots:
-    st.subheader("Jointplot")
+    col2b.subheader("Jointplot")
     plt.figure(figsize=(8, 6))
     sns.jointplot(data=df_forest, x=x_variable, y=y_variable, kind="reg", color="g")
     #plt.title(f"Jointplot of {x_variable} vs {y_variable}")
-    col2.pyplot(plt)
+    col2b.pyplot(plt)
 
 if "Heatmap" in selected_plots:
-    st.subheader("Heatmap")
+    col2b.subheader("Heatmap")
     plt.figure(figsize=(10, 7))
     df_forestf1 = df_forest.drop(['X','Y','month','day'],axis =1)
     sns.heatmap(df_forestf1.corr(), annot=True, cmap='coolwarm', fmt=".2f")
     plt.title("Feature Correlation Heatmap")
-    col2.pyplot(plt)
+    col2b.pyplot(plt)
 
 if "Histogram" in selected_plots:
-    st.subheader("Histogram with Normal Distribution")
+    col2b.subheader("Histogram with Normal Distribution")
     plt.figure(figsize=(8, 6))
     sns.histplot(df_forest[x_variable], kde=True)
-    col2.pyplot(plt)
+    col2b.pyplot(plt)
 
 ###################################################################################################
 st.header("Spatial Distribution of Fires within the Montesinho park") #write figure title
