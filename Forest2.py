@@ -91,7 +91,7 @@ if "JointPlot" in selected_plots:
 
 if "Heatmap" in selected_plots:
     col2b.subheader("Heatmap")
-    plt.figure(figsize=(10, 7))
+    plt.figure(figsize=(8, 7))
     df_forestf1 = df_forest.drop(['X','Y','month','day'],axis =1)
     sns.heatmap(df_forestf1.corr(), annot=True, cmap='coolwarm', fmt=".2f")
     plt.title("Feature Correlation Heatmap")
@@ -107,18 +107,18 @@ col2.divider()
 ###################################################################################################
 col1.header("Spatial Distribution of Fires within the Montesinho park") #write figure title
 col1.markdown('<p class="font_text"> The spatial distribution of fires within the Montesinho Park is very important to investigate the fire trends. From the scatter plot we could see the location where the fire happens. </p>', unsafe_allow_html=True)
-fig, ax = plt.subplots(figsize=(11, 9))
+fig, ax = plt.subplots(figsize=(8,6))
 sns.scatterplot(df_forest, x='X', y='Y', hue="Logarea", size="Logarea",sizes=(50,500))
 col2.pyplot(fig)
 
 ###################################################################################################
-st.header("3D Distribution of Fires within the Montesinho park vs Quarter") #write figure title
-st.markdown('<p class="font_text"> This visualization effectively communicates the spatial distribution of forest fires throughout different times of the year, emphasizing the significance of the third quarter (July to September) in the frequency of fires. </p>', unsafe_allow_html=True)
+col1.header("3D Distribution of Fires within the Montesinho park vs Quarter") #write figure title
+col1.markdown('<p class="font_text"> This visualization effectively communicates the spatial distribution of forest fires throughout different times of the year, emphasizing the significance of the third quarter (July to September) in the frequency of fires. </p>', unsafe_allow_html=True)
 fig=px.scatter_3d(df_forest, x='X', y='Y', z="Logarea",color="quarter")
-st.plotly_chart(fig)
+col2.plotly_chart(fig)
 ###################################################################################################
-st.header("Temperature vs. Burned Area in Forest Fires")
-st.markdown('<p class="font_text"> When we visualize the relationship between the burned area and temperature, it is evident that as the temperature rises, the area affected by fires tends to increase. Additionally, by segmenting the data into different quarters, we can gain insights into how fire occurrences vary across specific months. </p>', unsafe_allow_html=True)
+col1.header("Temperature vs. Burned Area in Forest Fires")
+col1.markdown('<p class="font_text"> When we visualize the relationship between the burned area and temperature, it is evident that as the temperature rises, the area affected by fires tends to increase. Additionally, by segmenting the data into different quarters, we can gain insights into how fire occurrences vary across specific months. </p>', unsafe_allow_html=True)
 df_forest['quarter'] = df_forest['quarter'].astype('category')
 color_map1 = {
     'Q1: Jan-Mar': "red",     
@@ -133,17 +133,19 @@ fig = px.scatter(df_forest,
                  hover_data=['wind', 'rain'],
                  color_discrete_map= color_map1)
                  #title="Temperature vs. Burned Area in Forest Fires")
-st.plotly_chart(fig)
+col2.plotly_chart(fig)
 ###################################################################################################
-st.header("Contour Plot Showing Influence on Burned Area")
-st.markdown('<p class="font_text"> From the previous visualization, the direct relationship between weather indicators and the extent of burned areas was not immediately clear. Hence, we decided to focus on pairs of weather features, visualizing them through 2D contour plots. This approach aims to provide a clearer perspective on their combined influence on forest fires. </p>', unsafe_allow_html=True)
-option1 = st.selectbox('Feature 1', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =1)
-option2 = st.selectbox('Feature 2', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =2)
+col1.header("Contour Plot Showing Influence on Burned Area")
+col1.markdown('<p class="font_text"> From the previous visualization, the direct relationship between weather indicators and the extent of burned areas was not immediately clear. Hence, we decided to focus on pairs of weather features, visualizing them through 2D contour plots. This approach aims to provide a clearer perspective on their combined influence on forest fires. </p>', unsafe_allow_html=True)
+
+col2a,col2b = col2.columns([1,2])
+option1 = col2a.selectbox('Feature 1', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =1)
+option2 = col2a.selectbox('Feature 2', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =2)
 
 fig = px.density_contour(df_forest, x=option1, y= option2, z='area',histfunc="avg",
                          labels={'area': 'Burned Area'},width=800, height=600)
 fig.update_traces(contours_coloring="fill", contours_showlabels = True,colorscale='Spectral')
-st.plotly_chart(fig)
+col2b.plotly_chart(fig)
 ####################################################################################################################################################################
 #Reference
 st.markdown('<p class="font_header">References: </p>', unsafe_allow_html=True)
