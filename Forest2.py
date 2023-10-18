@@ -34,7 +34,7 @@ font-size:18px ; font-family: "Times New Roman" ; color: black;text-align: cente
 </style> """, unsafe_allow_html=True)
 ####################################################################################################################################################################
 st.title("Explore the Forestfires Data")
-col1, col2= st.columns([1,4])
+col1, col2= st.columns([1,3])
 col1.subheader("Background")
 col1.markdown('<p class="font_text">Considering the global warming, the increasing forest fires are more and more serious. </p>', unsafe_allow_html=True)
 col1.markdown('<p class="font_text">The primary goal of analysis of dataset "Forestfires" is to understand the interplay of various meteorological and spatial factors that influence forest fires occurrence and magnitude. By doing so, we aim to answer the questions below: What are the most influential determinants that lead to forest fires, and how could we predict future outbreaks and spread of these fires? If we can solve these problems, we can take preventive measures to minimize the air pollution and surrounding damage caused by forest fires.</p>', unsafe_allow_html=True)
