@@ -33,7 +33,7 @@ st.markdown(""" <style> .font_subtext {
 font-size:18px ; font-family: "Times New Roman" ; color: black;text-align: center;} 
 </style> """, unsafe_allow_html=True)
 ####################################################################################################################################################################
-st.title("Explore the Forest Fires Dataset")
+st.title("Exploring the Forest Fires Dataset")
 col1, col2= st.columns([1,3])
 col1.subheader("Background")
 col1.markdown('<p class="font_text">Considering the global warming, the increasing forest fires are more and more serious. </p>', unsafe_allow_html=True)
@@ -65,7 +65,7 @@ col2.dataframe(df_forest.head()) # prints head in web app
 col2.divider()
 ##############################################################################################################################################
 col2.header("Select X and Y Variables for the 'Forestfires' Dataset")
-col2.markdown('<p class="font_text"> Several visualization are developed to study possible existing trend between different features of the dataset. </p>', unsafe_allow_html=True)
+col2.markdown('<p class="font_text"> Several visualizations are developed to study possible existing trend between different features of the dataset. </p>', unsafe_allow_html=True)
 
 col2a, col2b = col2.columns([1,2])
 x_variable = col2a.selectbox("X Variable", df_forest.drop(columns=['X', 'Y']).columns)
