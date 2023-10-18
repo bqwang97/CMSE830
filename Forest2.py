@@ -110,19 +110,20 @@ col1.markdown('<p class="font_text"> The spatial distribution of fires within th
 col1.markdown('<p class="font_text"> The visualizations effectively communicate the spatial distribution of forest fires throughout different times of the year, emphasizing the significance of the third quarter (July to September) in the frequency of fires. </p>', unsafe_allow_html=True)
 
 col2a, col2b = col2.columns(2)
+
+col2a.subheader("3D Distribution of Fires within the Montesinho park vs Quarter") #write figure title
+fig=px.scatter_3d(df_forest, x='X', y='Y', z="Logarea",color="quarter")
+col2a.plotly_chart(fig)
+
 fig, ax = plt.subplots(figsize=(8,6))
 sns.scatterplot(df_forest, x='X', y='Y', hue="Logarea", size="Logarea",sizes=(50,500))
-col2a.subheader("2D Distribution of Burned Area")
-col2a.pyplot(fig)
-
-col2b.subheader("3D Distribution of Fires within the Montesinho park vs Quarter") #write figure title
-fig=px.scatter_3d(df_forest, x='X', y='Y', z="Logarea",color="quarter")
-col2b.plotly_chart(fig)
+col2b.subheader("2D Distribution of Burned Area")
+col2b.pyplot(fig)
 
 col2.divider()
 ###################################################################################################
-col1.header("Temperature vs. Burned Area in Forest Fires")
-col1.markdown('<p class="font_text"> When we visualize the relationship between the burned area and temperature, it is evident that as the temperature rises, the area affected by fires tends to increase. Additionally, by segmenting the data into different quarters, we can gain insights into how fire occurrences vary across specific months. </p>', unsafe_allow_html=True)
+col2.header("Temperature vs. Burned Area in Forest Fires")
+col2.markdown('<p class="font_text"> When we visualize the relationship between the burned area and temperature, it is evident that as the temperature rises, the area affected by fires tends to increase. Additionally, by segmenting the data into different quarters, we can gain insights into how fire occurrences vary across specific months. </p>', unsafe_allow_html=True)
 df_forest['quarter'] = df_forest['quarter'].astype('category')
 color_map1 = {
     'Q1: Jan-Mar': "red",     
@@ -145,7 +146,7 @@ col2.divider()
 col2.header("Contour Plot Showing Influence on Burned Area")
 col2.markdown('<p class="font_text"> From the previous visualization, the direct relationship between weather indicators and the extent of burned areas was not immediately clear. Hence, we decided to focus on pairs of weather features, visualizing them through 2D contour plots. This approach aims to provide a clearer perspective on their combined influence on forest fires. </p>', unsafe_allow_html=True)
 
-col2a,col2b = col2.columns([1,2])
+col2a,col2b = col2.columns([1,3])
 option1 = col2a.selectbox('Feature 1', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =1)
 option2 = col2a.selectbox('Feature 2', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =2)
 
