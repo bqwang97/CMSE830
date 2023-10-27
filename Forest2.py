@@ -61,7 +61,7 @@ col1.subheader("Dataset Description ")
 col1.markdown('<p class="font_text"> We choose the "Forestfires" dataset from UCI. This datasets provides a comprehensive view of both meteorological and spatial factors within the Montesinho park map, allowing for a detailed analysis of how these elements correlate with the extent of forest fires. The forestfires dataset originates from the Montesinho natural park and includes several parameters:* Spatial Coordinates: X and Y axis spatial coordinates within the park.* Time Factors: Month and day of the week* Fire weather Index System Parameters: Include FFMC(index of the moisture content of surface litter), DMC(index of the moisture content of organic layers), DC(index of the moisture content of deep, compact organic layers) and ISI(index of the expected rate of fire spread) indices.* Meteorological Data: Temperature (in Celsius), relative humidity (%), wind speed (km/h), and outside rain (mm/m^2).* Outcome Variable: Burned area of the forest (in ha). </p>', unsafe_allow_html=True)
 
 col2.header("Let's explore the dataset")
-col2.dataframe(df_forest.head()) # prints head in web app
+col2.dataframe(df_forest_fixed.head()) # prints head in web app
 
 col2.divider()
 ##############################################################################################################################################
@@ -69,8 +69,8 @@ col2.header("Select X and Y Variables for the 'Forestfires' Dataset")
 col2.markdown('<p class="font_text"> Several visualizations are developed to study possible existing trend between different features of the dataset. </p>', unsafe_allow_html=True)
 
 col2a, col2b = col2.columns([1,2])
-x_variable = col2a.selectbox("X Variable", df_forest.drop(columns=['X', 'Y']).columns)
-y_variable = col2a.selectbox("Y Variable", df_forest.drop(columns=['X', 'Y']).columns)
+x_variable = col2a.selectbox("X Variable", df_forest_fixed.drop(columns=['X', 'Y']).columns)
+y_variable = col2a.selectbox("Y Variable", df_forest_fixed.drop(columns=['X', 'Y']).columns)
 selected_plots = col2a.multiselect("Select Plots to Display",
                                 ["Scatter Plot","JointPlot","Heatmap","Histogram"],
                                 default=["Scatter Plot"])
@@ -79,21 +79,21 @@ if "Scatter Plot" in selected_plots:
     col2b.subheader("Scatter Plot")
     plt.figure(figsize=(8, 6))
     sns.set_style("darkgrid")
-    sns.scatterplot(data=df_forest, x=x_variable, y=y_variable,color = 'red')
+    sns.scatterplot(data=df_forest_fixed, x=x_variable, y=y_variable,color = 'red')
     ##plt.title(f"Scatter plot between {x_variable} and {y_variable}")
     col2b.pyplot(plt)
 
 if "JointPlot" in selected_plots:
     col2b.subheader("Jointplot")
     plt.figure(figsize=(8, 6))
-    sns.jointplot(data=df_forest, x=x_variable, y=y_variable, kind="reg", color="g")
+    sns.jointplot(data=df_forest_fixed, x=x_variable, y=y_variable, kind="reg", color="g")
     #plt.title(f"Jointplot of {x_variable} vs {y_variable}")
     col2b.pyplot(plt)
 
 if "Heatmap" in selected_plots:
     col2b.subheader("Heatmap")
     plt.figure(figsize=(8, 7))
-    df_forestf1 = df_forest.drop(['X','Y','month','day'],axis =1)
+    df_forestf1 = df_forest_fixed.drop(['X','Y','month','day'],axis =1)
     sns.heatmap(df_forestf1.corr(), annot=True, cmap='coolwarm', fmt=".2f")
     plt.title("Feature Correlation Heatmap")
     col2b.pyplot(plt)
@@ -101,7 +101,7 @@ if "Heatmap" in selected_plots:
 if "Histogram" in selected_plots:
     col2b.subheader("Histogram with Normal Distribution")
     plt.figure(figsize=(8, 6))
-    sns.histplot(df_forest[x_variable], kde=True)
+    sns.histplot(df_forest_fixed[x_variable], kde=True)
     col2b.pyplot(plt)
 
 col2.divider()
@@ -113,11 +113,11 @@ col1.markdown('<p class="font_text"> The visualizations effectively communicate 
 col2a, col2b = col2.columns(2)
 
 col2a.subheader("3D Distribution of Fires within the Montesinho park vs Quarter") #write figure title
-fig=px.scatter_3d(df_forest, x='X', y='Y', z="Logarea",color="quarter")
+fig=px.scatter_3d(df_forest_fixed, x='X', y='Y', z="Logarea",color="quarter")
 col2a.plotly_chart(fig)
 
 fig, ax = plt.subplots(figsize=(8,6))
-sns.scatterplot(df_forest, x='X', y='Y', hue="Logarea", size="Logarea",sizes=(50,500))
+sns.scatterplot(df_forest_fixed, x='X', y='Y', hue="Logarea", size="Logarea",sizes=(50,500))
 col2b.subheader("2D Distribution of Burned Area")
 col2b.pyplot(fig)
 
@@ -125,13 +125,13 @@ col2.divider()
 ###################################################################################################
 col2.header("Temperature vs. Burned Area in Forest Fires")
 col2.markdown('<p class="font_text"> When we visualize the relationship between the burned area and temperature, it is evident that as the temperature rises, the area affected by fires tends to increase. Additionally, by segmenting the data into different quarters, we can gain insights into how fire occurrences vary across specific months. </p>', unsafe_allow_html=True)
-df_forest['quarter'] = df_forest['quarter'].astype('category')
+df_forest_fixed['quarter'] = df_forest_fixed['quarter'].astype('category')
 color_map1 = {
     'Q1: Jan-Mar': "red",     
     'Q2: Apr-Jun': "blue",    
     'Q3: Jul-Sep': "orange",   
     'Q4: Oct-Dec': "brown" }
-fig = px.scatter(df_forest, 
+fig = px.scatter(df_forest_fixed, 
                  x="temp", 
                  y="Logarea", 
                  color="quarter",
@@ -151,7 +151,7 @@ col2a,col2b = col2.columns([1,3])
 option1 = col2a.selectbox('Feature 1', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =1)
 option2 = col2a.selectbox('Feature 2', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =2)
 
-fig = px.density_contour(df_forest, x=option1, y= option2, z='area',histfunc="avg",
+fig = px.density_contour(df_forest_fixed, x=option1, y= option2, z='area',histfunc="avg",
                          labels={'area': 'Burned Area'},width=800, height=600)
 fig.update_traces(contours_coloring="fill", contours_showlabels = True,colorscale='Spectral')
 col2b.plotly_chart(fig)
