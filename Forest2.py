@@ -53,14 +53,34 @@ def month_to_quarter(month):
     else:
         return 'Q4: Oct-Dec'
 df_forest['quarter'] = df_forest['month'].apply(month_to_quarter)
-df_forest= df_forest[df_forest['area'] !=0]
+##df_forest= df_forest[df_forest['area'] !=0]
 df_forest['Logarea'] = np.log1p(df_forest['area'])
 
 
 col1.subheader("Dataset Description ")
-col1.markdown('<p class="font_text"> We choose the "Forestfires" dataset from UCI. This datasets provides a comprehensive view of both meteorological and spatial factors within the Montesinho park map, allowing for a detailed analysis of how these elements correlate with the extent of forest fires. The forestfires dataset originates from the Montesinho natural park and includes several parameters:* Spatial Coordinates: X and Y axis spatial coordinates within the park.* Time Factors: Month and day of the week* Fire weather Index System Parameters: Include FFMC(index of the moisture content of surface litter), DMC(index of the moisture content of organic layers), DC(index of the moisture content of deep, compact organic layers) and ISI(index of the expected rate of fire spread) indices.* Meteorological Data: Temperature (in Celsius), relative humidity (%), wind speed (km/h), and outside rain (mm/m^2).* Outcome Variable: Burned area of the forest (in ha). </p>', unsafe_allow_html=True)
-
+col1.markdown('<p class="font_text"> We choose the "Forestfires" dataset from UCI. This datasets provides a comprehensive view of both meteorological and spatial factors within the Montesinho park map, allowing for a detailed analysis of how these elements correlate with the extent of forest fires. 
+              The forestfires dataset originates from the Montesinho natural park in the Tra ́s-os-Montes northeast region of Portugal. The dataset was collected from January 2000 to December 2003 and it was built using two sources. There is no issue of missingness in the dataset.
+              There are 516 rows and 13 columns in the dataset.</p>', unsafe_allow_html=True)
 col2.header("Let's explore the dataset")
+df_columns = df_forest.columns
+selected_options = col2.multiselect("**Let's see the description of different columns present in the dataset. Select column names to see their brief description**", df_columns)
+description = {"X": "x-axis coordinate (from 1 to 9) within the park.", 
+               "Y": "y-axis coordinate (from 1 to 9) within the park.", 
+               "month": "Month of the year (January to December)", 
+               "FFMC": "Fine Fuel Moisture Code denotes moisture content surface litter and influences ignition and fire spread.
+               A high FFMC value suggests that the fine fuels are dry and conditions are suitable for the easy spread of fire.", 
+               "DMC": "Duff Moisture Code represents moisture content of shallow organic layers which affect fire intensity.", 
+               "DC": "Drought Code is an index of the moisture content of deep, compact organic layers. 
+               High DC values indicates that the deep organic layers are dry and there is a higher risk of more intense fires ", 
+               "ISI": "Initial Spread Index correlates with fire velocity spread. High ISI value occurs during conditions of high wind and low fine fuel moisture content, suggesting rapid fire spread.", 
+               "temp": "Outside temperature (in Celsius )",
+               "RH": "Outside relative humidity (in %)",
+               "wind": "Outside wind speed (in km/h)",
+               "rain": "Outside rain (in mm/m )",
+               "area": "Total burned area (in ha)",
+               "quarter": " I added quarter column by dividing the month into four groups: Jan to Mar, Apr to Jun, July to Sep and Oct to Dec. In this way, the distribution of the fires could be easier be visualized",
+               "Logarea": "To reduce skewness and improve symmetry, the logarithm function y = ln(x + 1) was applied to the area attribute"
+               }
 col2.dataframe(df_forest.head()) # prints head in web app
 
 col2.divider()
