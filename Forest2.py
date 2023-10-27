@@ -53,7 +53,8 @@ def month_to_quarter(month):
     else:
         return 'Q4: Oct-Dec'
 df_forest['quarter'] = df_forest['month'].apply(month_to_quarter)
-df_forest['Logarea'] = np.log1p(df_forest['area'])
+df_forest_fixed = df_forest.drop[df_forest['area'] ==0]
+df_forest_fixed['Logarea'] = np.log1p(df_forest_fixed['area'])
 
 
 col1.subheader("Dataset Description ")
