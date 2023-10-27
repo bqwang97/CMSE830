@@ -58,20 +58,16 @@ df_forest['Logarea'] = np.log1p(df_forest['area'])
 
 
 col1.subheader("Dataset Description ")
-col1.markdown('<p class="font_text"> We choose the "Forestfires" dataset from UCI. This datasets provides a comprehensive view of both meteorological and spatial factors within the Montesinho park map, allowing for a detailed analysis of how these elements correlate with the extent of forest fires. 
-              The forestfires dataset originates from the Montesinho natural park in the Tra ́s-os-Montes northeast region of Portugal. The dataset was collected from January 2000 to December 2003 and it was built using two sources. There is no issue of missingness in the dataset.
-              There are 516 rows and 13 columns in the dataset.</p>', unsafe_allow_html=True)
+col1.markdown('<p class="font_text"> We choose the "Forestfires" dataset from UCI. This datasets provides a comprehensive view of both meteorological and spatial factors within the Montesinho park map, allowing for a detailed analysis of how these elements correlate with the extent of forest fires. The forestfires dataset originates from the Montesinho natural park in the Tra ́s-os-Montes northeast region of Portugal. The dataset was collected from January 2000 to December 2003 and it was built using two sources. There is no issue of missingness in the dataset. There are 516 rows and 13 columns in the dataset.</p>', unsafe_allow_html=True)
 col2.header("Let's explore the dataset")
 df_columns = df_forest.columns
 selected_options = col2.multiselect("**Let's see the description of different columns present in the dataset. Select column names to see their brief description**", df_columns)
 description = {"X": "x-axis coordinate (from 1 to 9) within the park.", 
                "Y": "y-axis coordinate (from 1 to 9) within the park.", 
                "month": "Month of the year (January to December)", 
-               "FFMC": "Fine Fuel Moisture Code denotes moisture content surface litter and influences ignition and fire spread.
-               A high FFMC value suggests that the fine fuels are dry and conditions are suitable for the easy spread of fire.", 
+               "FFMC": "Fine Fuel Moisture Code denotes moisture content surface litter and influences ignition and fire spread. A high FFMC value suggests that the fine fuels are dry and conditions are suitable for the easy spread of fire.", 
                "DMC": "Duff Moisture Code represents moisture content of shallow organic layers which affect fire intensity.", 
-               "DC": "Drought Code is an index of the moisture content of deep, compact organic layers. 
-               High DC values indicates that the deep organic layers are dry and there is a higher risk of more intense fires ", 
+               "DC": "Drought Code is an index of the moisture content of deep, compact organic layers. High DC values indicates that the deep organic layers are dry and there is a higher risk of more intense fires ", 
                "ISI": "Initial Spread Index correlates with fire velocity spread. High ISI value occurs during conditions of high wind and low fine fuel moisture content, suggesting rapid fire spread.", 
                "temp": "Outside temperature (in Celsius )",
                "RH": "Outside relative humidity (in %)",
