@@ -77,6 +77,8 @@ description = {"X": "x-axis coordinate (from 1 to 9) within the park.",
                "quarter": " I added quarter column by dividing the month into four groups: Jan to Mar, Apr to Jun, July to Sep and Oct to Dec. In this way, the distribution of the fires could be easier be visualized",
                "Logarea": "To reduce skewness and improve symmetry, the logarithm function y = ln(x + 1) was applied to the area attribute"
                }
+for option in selected_options:
+        col2.write(f"**Description of {option}:** {description[option]}")
 col2.dataframe(df_forest.head()) # prints head in web app
 
 col2.divider()
