@@ -65,6 +65,7 @@ selected_options = col2.multiselect("**Let's see the description of different co
 description = {"X": "x-axis coordinate (from 1 to 9) within the park.", 
                "Y": "y-axis coordinate (from 1 to 9) within the park.", 
                "month": "Month of the year (January to December)", 
+               "day": "Day of the week (Monday to Sunday)",
                "FFMC": "Fine Fuel Moisture Code denotes moisture content surface litter and influences ignition and fire spread. A high FFMC value suggests that the fine fuels are dry and conditions are suitable for the easy spread of fire.", 
                "DMC": "Duff Moisture Code represents moisture content of shallow organic layers which affect fire intensity.", 
                "DC": "Drought Code is an index of the moisture content of deep, compact organic layers. High DC values indicates that the deep organic layers are dry and there is a higher risk of more intense fires ", 
