@@ -125,7 +125,7 @@ with tab2:
         #option6 = st.slider('Number of contour level:', 0, 200, 20)
 
         sns.set_theme(style="white")
-        fig = sns.jointplot(data=df_forest, x=option3, y=option4, kind = “reg” )
+        fig = sns.jointplot(data=df_forest, x=option3, y=option4, kind ='reg')
         #fig.plot_joint(sns.kdeplot,fill=True,thresh=0, levels=option6, cmap=option5)
         #fig.plot_marginals(sns.histplot, color="blue", alpha=1, bins=30)
         st.pyplot(fig)
