@@ -229,7 +229,9 @@ with tab3:
                         name='Prediction'))
 
     st.plotly_chart(fig)
-    ###################################################################################################
+
+
+    
     st.markdown('<p class="font_header">Random Forest:</p>', unsafe_allow_html=True)
     col1 , col2, col3,col4= st.columns(4,gap='small')
     Feature_Variable = col1.multiselect('Select feature(s) for linear regression:',
@@ -246,7 +248,6 @@ with tab3:
     Scaler_Object.fit(X_train)    
     X_train_scaled = Scaler_Object.transform(X_train)
     X_test_scaled = Scaler_Object.transform(X_test)
-
     
     Random_Forest_Object.fit(X_train_scaled, y_train)
     rf_reg_predictions = Random_Forest_Object.predict(X_test_scaled)
