@@ -106,7 +106,7 @@ with tab2:
     #hue = pairplot_hue if pairplot_hue != 'None' else None
     fig1 = sns.pairplot(data=df_forest,x_vars=pairplot_options_x,y_vars=pairplot_options_y, hue=pairplot_hue)
     st.pyplot(fig1)
-    #################################################################################################################################################################
+    
     tab8, tab9,tab10 = st.tabs(["Heatmap", "Jointplot","Histogram"])
     with tab8:
         plt.figure(figsize=(8, 7))
