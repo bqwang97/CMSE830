@@ -72,7 +72,8 @@ with tab1:
 
 ####################################################################################################################################################################
     st.sidebar.markdown('<p class="font_text">Dataset Description:</p>', unsafe_allow_html=True)
-    
+
+    df_columns = df_forest.columns
     selected_options = st.sidebar.multiselect("**Let's see the description of different columns present in the dataset. Select column names to see their brief description**", df_columns)
     description = {"X": "x-axis coordinate (from 1 to 9) within the park.", 
                    "Y": "y-axis coordinate (from 1 to 9) within the park.", 
