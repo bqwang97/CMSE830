@@ -234,8 +234,12 @@ with tab3:
     
     st.markdown('<p class="font_header">Random Forest:</p>', unsafe_allow_html=True)
     col1 , col2, col3,col4= st.columns(4,gap='small')
-    Feature_Variable = col1.multiselect('Select feature(s) for linear regression:',
+    Feature_Variable2 = col1.multiselect('Select feature(s) for random forest model:',
                                         ['FFMC','DMC','DC','ISI','temp','RH','wind','rain'], default = 'temp')
+    X_rf = df_forest_scaler[Feature_Variable2]
+    y_rf = df_forest_scaler['Logarea']
+    X_rf_train, X_rf_test, y_rf_train, y_rf_test = train_test_split(X_rf, y_rf, test_size=0.3, random_state=42)
+    
     Estimator = col2.slider('Input a value for estimator',0,200)
     Random_State_rf = col3.slider('Input a value for random state', 0, 200, 40)
     Random_Forest_Object = RandomForestRegressor(n_estimators=Estimator, random_state=Random_State_rf)
@@ -246,21 +250,21 @@ with tab3:
     elif Scaler_Type == 'Standard Scaler':
         Scaler_Object = StandardScaler()
     Scaler_Object.fit(X_train)    
-    X_train_scaled = Scaler_Object.transform(X_train)
-    X_test_scaled = Scaler_Object.transform(X_test)
+    X_rf_train_scaled = Scaler_Object.transform(X_rf_train)
+    X_rf_test_scaled = Scaler_Object.transform(X_rf_test)
     
-    Random_Forest_Object.fit(X_train_scaled, y_train)
-    rf_reg_predictions = Random_Forest_Object.predict(X_test_scaled)
-    rf_reg_mse = mean_squared_error(y_test, rf_reg_predictions)
-    rf_reg_r2 = r2_score(y_test, rf_reg_predictions)
+    Random_Forest_Object.fit(X_rf_train_scaled, y_rf_train)
+    rf_reg_predictions = Random_Forest_Object.predict(X_rf_test_scaled)
+    rf_reg_mse = mean_squared_error(y_rf_test, rf_reg_predictions)
+    rf_reg_r2 = r2_score(y_rf_test, rf_reg_predictions)
     st.write('For random forest regression methods ', 'the accuracy score based on r2 ',np.round(rf_reg_r2),'.')
     st.write('For random forest regression methods ', 'the Mean Squared Error is  ',np.round(rf_reg_mse),'.')
 
-    Index=np.linspace(0,y_test.size-1,y_test.size).astype(int)
-    RF_Dataframe=pd.DataFrame(index=np.arange(len(y_test)), columns=np.arange(3))
+    Index_rf=np.linspace(0,y_rf_test.size-1,y_rf_test.size).astype(int)
+    RF_Dataframe=pd.DataFrame(index=np.arange(len(y_rf_test)), columns=np.arange(3))
     RF_Dataframe.columns=['Index','Actual','Predict']
-    RF_Dataframe['Index'] = Index
-    RF_Dataframe['Actual'] = y_test.reset_index(drop=True)
+    RF_Dataframe['Index'] = Index_rf
+    RF_Dataframe['Actual'] = y_rf_test.reset_index(drop=True)
     RF_Dataframe['Predict'] = rf_reg_predictions
 
     fig = go.Figure()
