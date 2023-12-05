@@ -70,7 +70,6 @@ with tab1:
         st.table(df_forest.head(20))
         st.markdown('<p class="font_subtext">Table 2: Forestfires dataset.</p>', unsafe_allow_html=True)
 
-####################################################################################################################################################################
     st.sidebar.markdown('<p class="font_text">Dataset Description:</p>', unsafe_allow_html=True)
 
     df_columns = df_forest.columns
