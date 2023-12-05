@@ -318,10 +318,9 @@ with tab4:
     Y_DNN = Target_Variable_DNN
     X_DNN = df_forest_scaler[Feature_Variable_DNN]
     Train_Size_DNN = col1.number_input('Input a value for train-size ratio:',value=0.8,format='%f')
+    X_Train_DNN, X_Test_DNN, Y_Train_DNN, Y_Test_DNN = train_test_split(X_DNN, Y_DNN, train_size=Train_Size_DNN,random_state=42)
     
     Scaler_DNN = col2.checkbox('Applying Scaler object for neural network regression')
-    X_Train_DNN, X_Test_DNN, Y_Train_DNN, Y_Test_DNN = train_test_split(X_DNN, Y_DNN, train_size=Train_Size_DNN,random_state=42)
-
     if Scaler_DNN:
         Scaler_Type_DNN = col3.selectbox('Select NN scaler object:',['Min-Max Scaler', 'Standard Scaler'],index = 0)
         if Scaler_Type_DNN == 'Min-Max Scaler':
