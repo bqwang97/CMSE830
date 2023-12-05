@@ -107,7 +107,7 @@ with tab2:
     fig1 = sns.pairplot(data=df_forest,x_vars=pairplot_options_x,y_vars=pairplot_options_y, hue=pairplot_hue)
     st.pyplot(fig1)
     
-    tab8, tab9,tab10 = st.tabs(["Heatmap", "Jointplot", "Contourplot"])
+    tab8, tab9,tab10 = st.tabs(["Heatmap", "Histogram", "Contourplot"])
     with tab8:
         plt.figure(figsize=(8, 7))
         df_forestf1 = df_forest.drop(['X','Y','month','day'],axis =1)
@@ -115,22 +115,13 @@ with tab2:
         st.markdown('<p class="font_subtext">Fig. 5: Feature Correlation Heatmap.</p>', unsafe_allow_html=True)
         ##plt.title("Feature Correlation Heatmap")
         st.pyplot(plt)
-        
     with tab9:
-        st.markdown('<p class="font_subtext">Fig. 5: Jointplot for two of the investigated features.</p>', unsafe_allow_html=True)
-        df_forestf1 = df_forest.drop(['X','Y','month','day'],axis =1)
-        option3 = st.selectbox('Feature 1', df_forestf1.columns)
-        option4 = st.selectbox('Feature 2', df_forestf1.columns)
-        #option5 = st.selectbox('Color map:',('mako','viridis','rocket','Spectral','coolwarm'))
-        #option6 = st.slider('Number of contour level:', 0, 200, 20)
+        col1, col2 = st.columns(2,gap='small')
+        fig1 = sns.histplot(data=df_forest, x = 'area')
+        col1.pyplot(fig1)
 
-        sns.set_theme(style="white")
-        fig = sns.jointplot(data=df_forest, x=option3, y=option4, kind ='reg')
-        #fig.plot_joint(sns.kdeplot,fill=True,thresh=0, levels=option6, cmap=option5)
-        #fig.plot_marginals(sns.histplot, color="blue", alpha=1, bins=30)
-        st.pyplot(fig)
-        
-        
+        fig2 = sns.histplot(data=df_forest, x = 'Logarea')
+        col2.pyplot(fig2)
     with tab10:
         st.markdown('<p class="font_subtext">Fig. 5: Contour Plot Showing Influence on Burned Area. </p>', unsafe_allow_html=True)
         st.markdown('<p class="font_text"> From the previous visualization, the direct relationship between weather indicators and the extent of burned areas was not immediately clear. Hence, we decided to focus on pairs of weather features, visualizing them through 2D contour plots. This approach aims to provide a clearer perspective on their combined influence on forest fires. </p>', unsafe_allow_html=True)
