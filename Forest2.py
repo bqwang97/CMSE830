@@ -332,7 +332,7 @@ with tab4:
         X_Train_Scaled_DNN =Scaler_Object_DNN.transform(X_Train_DNN)
         X_Test_Scaled_DNN =Scaler_Object_DNN.transform(X_Test_DNN)
         
-    MLP_Object=MLPRegressor(hidden_layer_sizes=Num_Neuron, activation=Activation_DNN, solver=Solver_DNN,
+    MLP_Object=MLPRegressor(hidden_layer_sizes=Num_Neuron_DNN, activation=Activation_DNN, solver=Solver_DNN,
              alpha=Alpha_DNN, batch_size=Batch_Size_DNN, learning_rate=Learning_Rate_DNN,
              learning_rate_init=Learning_Rate_Init_DNN, max_iter=Max_Iteration_DNN, shuffle=True)
     
