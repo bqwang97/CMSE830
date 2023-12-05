@@ -328,6 +328,7 @@ with tab4:
             Scaler_Object_DNN = MinMaxScaler()
         elif Scaler_Type_DNN == 'Standard Scaler':
             Scaler_Object_DNN = StandardScaler()
+        Scaler_Object_DNN.fit(X_Train_DNN)
         X_Train_Scaled_DNN =Scaler_Object_DNN.transform(X_Train_DNN)
         X_Test_Scaled_DNN =Scaler_Object_DNN.transform(X_Test_DNN)
         
