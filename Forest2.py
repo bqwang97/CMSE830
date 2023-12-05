@@ -315,8 +315,8 @@ with tab4:
     st.write(' ')
     col1, col2, col3= st.columns(3,gap='small')
     st.write(' ')
-    Y_DNN = Target_Variable_DNN.to_numpy()
-    X_DNN = df_forest_scaler[Feature_Variable_DNN].to_numpy()
+    Y_DNN = Target_Variable_DNN
+    X_DNN = df_forest_scaler[Feature_Variable_DNN]
     Train_Size_DNN = col1.number_input('Input a value for train-size ratio:',value=0.8,format='%f')
     
     Scaler_DNN = col2.checkbox('Applying Scaler object for neural network regression')
