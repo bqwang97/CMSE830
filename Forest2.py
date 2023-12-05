@@ -105,7 +105,22 @@ with tab2:
     pairplot_hue = st.sidebar.select_slider('Select hue for matrixplot:',options=['quarter', 'month'])
     #hue = pairplot_hue if pairplot_hue != 'None' else None
     fig1 = sns.pairplot(data=df_forest,x_vars=pairplot_options_x,y_vars=pairplot_options_y, hue=pairplot_hue)
-    st.pyplot(fig1)
+    
+    df_forestf1 = df_forest.drop(['X','Y','month','day'],axis =1)
+    c=alt.Chart(df_forest).mark_circle().encode(
+        alt.X(alt.repeat("column"), type='quantitative'),
+        alt.Y(alt.repeat("row"), type='quantitative'),
+        color=pairplot_hue,
+        tooltip=['X', 'Y']
+    ).properties(
+        width=280,
+        height=280
+    ).repeat(
+        row=pairplot_options_y,
+        column=pairplot_options_x
+    ).interactive()
+
+    st.altair_chart(c, use_container_width=True)
     
     tab8, tab9,tab10 = st.tabs(["Heatmap", "Histogram", "Contourplot"])
     with tab8:
