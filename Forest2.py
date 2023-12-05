@@ -307,10 +307,10 @@ with tab4:
     col1 , col2 , col3 , col4, col5= st.columns(5,gap='small')
     st.write(' ')
     Validation_Fraction_DNN = col2.number_input('Input a value for validation fraction:',value=0.2,format='%f')
-    Max_Iteration_DNN = col3.slider('Input a value for number of iteration:', 0, 20000, 200)
-    Random_State_DNN = col5.slider('Input a value for random state', 0, 200, 40)
+    Max_Iteration_DNN = col3.slider('Input a value for number of iteration:', 1, 20000, 200)
+    Random_State_DNN = col5.slider('Input a value for DNN random state', 1, 200, 40)
     Tolerence_DNN = col1.number_input('Input a value for tolerence: ',value=0.0001,format='%f')
-    Batch_Size_DNN = col4.slider('Input a value for batch size:', 0, len(y_test), 40)
+    Batch_Size_DNN = col4.slider('Input a value for batch size:', 1, len(y_test), 40)
 
     st.write(' ')
     col1, col2, col3= st.columns(3,gap='small')
