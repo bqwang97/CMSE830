@@ -240,11 +240,11 @@ with tab3:
     y_rf = df_forest_scaler['Logarea']
     X_rf_train, X_rf_test, y_rf_train, y_rf_test = train_test_split(X_rf, y_rf, test_size=0.2)
     
-    Estimator = col2.slider('Input a value for estimator',0,200)
+    Estimator = col2.slider('Input a value for estimator',10,200)
     Random_State_rf = col3.slider('Input a value for random state', 0, 200, 40)
     Random_Forest_Object = RandomForestRegressor(n_estimators=Estimator, random_state=Random_State_rf)
 
-    Scaler_Type_rf = col4.selectbox('Select scaler object:',['Min-Max Scaler', 'Standard Scaler'],index = 1)
+    Scaler_Type_rf = col4.selectbox('Select RF scaler object:',['Min-Max Scaler', 'Standard Scaler'],index = 1)
     if Scaler_Type_rf == 'Min-Max Scaler':
         Scaler_Object_rf = MinMaxScaler()
     elif Scaler_Type_rf == 'Standard Scaler':
