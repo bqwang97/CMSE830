@@ -216,7 +216,7 @@ with tab3:
     Linear_Dataframe=pd.DataFrame(index=np.arange(len(y_test)), columns=np.arange(3))
     Linear_Dataframe.columns=['Index','Actual','Predict']
     Linear_Dataframe.iloc[:,0]=Index
-    Linear_Dataframe.iloc[:,1]=y
+    Linear_Dataframe.iloc[:,1]=y_test
     Linear_Dataframe.iloc[:,2]=lin_reg_predictions
 
     fig = go.Figure()
