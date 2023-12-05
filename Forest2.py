@@ -213,7 +213,6 @@ with tab3:
         lin_reg_r2 = r2_score(y_test, lin_reg_predictions)
     st.write('For linear regression methods ', 'the accuracy score based on r2 ',np.round(lin_reg_r2),'.')
     st.write('For linear regression methods ', 'the Mean Squared Error is  ',np.round(lin_reg_mse),'.')
-    st.write(Linear_Regression,' comparison plot:')
     Linear_Dataframe=pd.DataFrame(index=np.arange(len(y_test)), columns=np.arange(3))
     Linear_Dataframe.columns=['Index','Actual','Predict']
     Linear_Dataframe.iloc[:,0]=Index
