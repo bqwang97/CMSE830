@@ -6,7 +6,15 @@ import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 import plotly.express as px
 import altair as alt
-
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVR
+from sklearn.metrics import mean_absolute_error,mean_squared_error,r2_score
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.ensemble import RandomForestRegressor
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 st.set_page_config(layout="wide")
@@ -170,7 +178,57 @@ with tab2:
     sns.scatterplot(df_forest, x='X', y='Y', hue="Logarea", size="Logarea",sizes=(50,500))
     col2.subheader("2D Distribution of Burned Area")
     col2.pyplot(fig)
+####################################################################################################################################################################
+#Regression Models
+with tab3:
+    st.markdown('<p class="font_header">Linear Regression:</p>', unsafe_allow_html=True)
+    Scaler = st.checkbox('Applying Scaler object for linear regression fitting')
+    df_forest_scaler = df_forest.drop(['X','Y','month','day'], axis=1)
+    col1 , col2 , col3 = st.columns(3,gap='small')
+    Feature_Variable = col2.multiselect('Select feature(s) for linear regression:',df_forest_scaler.columns, default = 'temp')
+    X = df_forest_scaler[Feature_Variable]
+    y = df_forest_scaler['Logarea']
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    Index=np.linspace(0,y_test.size-1,y_test.size).astype(int)
 
+    if Scaler:
+        Scaler_Type = col3.selectbox('Select scaler object:',['Min-Max Scaler', 'Standard Scaler'],index = 1)
+        if Scaler_Type == 'Min-Max Scaler':
+            Scaler_Object = MinMaxScaler()
+        elif Scaler_Type == 'Standard Scaler':
+            Scaler_Object = StandardScaler()
+        Scaler_Object.fit(X_train)    
+        X_train_scaled = Scaler_Object.transform(X_train)
+        X_test_scaled = Scaler_Object.transform(X_test)
+    Linear_Regression_Object = LinearRegression()         
+    if Scaler:
+        Linear_Regression_Object.fit(X_train_scaled, y_train)
+        lin_reg_predictions = Linear_Regression_Object.predict(X_test_scaled)
+        lin_reg_mse = mean_squared_error(y_test, lin_reg_predictions)
+        lin_reg_r2 = r2_score(y_test, lin_reg_predictions)
+    else:
+        Linear_Regression_Object.fit(X_train, y_train)
+        lin_reg_predictions = Linear_Regression_Object.predict(X_test)
+        lin_reg_mse = mean_squared_error(y_test, lin_reg_predictions)
+        lin_reg_r2 = r2_score(y_test, lin_reg_predictions)
+    st.write('For linear regression methods ', 'the accuracy score based on r2 ',np.round(lin_reg_r2),'.')
+    st.write('For linear regression methods ', 'the Mean Squared Error is  ',np.round(lin_reg_mse),'.')
+    st.write(Linear_Regression,' comparison plot:')
+    Linear_Dataframe=pd.DataFrame(index=np.arange(len(y_test)), columns=np.arange(3))
+    Linear_Dataframe.columns=['Index','Actual','Predict']
+    Linear_Dataframe.iloc[:,0]=Index
+    Linear_Dataframe.iloc[:,1]=y
+    Linear_Dataframe.iloc[:,2]=lin_reg_predictions
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=Linear_Dataframe['Index'], y=Linear_Dataframe['Actual'],marker_symbol='square',
+                        mode='markers',
+                        name='Actual'))
+    fig.add_trace(go.Scatter(x=Linear_Dataframe['Index'], y=Linear_Dataframe['Predict'],marker_symbol='circle',
+                        mode='markers',
+                        name='Prediction'))
+
+    st.plotly_chart(fig)
 ####################################################################################################################################################################
 #Reference
 st.markdown('<p class="font_header">References: </p>', unsafe_allow_html=True)
