@@ -116,9 +116,10 @@ with tab2:
         ##plt.title("Feature Correlation Heatmap")
         st.pyplot(plt)
         
-    with tab9:  
-        option3 = st.selectbox('Feature 1', df_forest.drop(columns=['month','day','X', 'Y']).columns)
-        option4 = st.selectbox('Feature 2', df_forest.drop(columns=['month','day','X', 'Y']).columns)
+    with tab9:
+        df_forestf1 = df_forest.drop(['X','Y','month','day'],axis =1)
+        option3 = st.selectbox('Feature 1', df_forestf1.columns,default = "temp" )
+        option4 = st.selectbox('Feature 2', df_forestf1.columns,default = "Logarea")
         option5 = st.selectbox('Color map:',('mako','viridis','rocket','Spectral','coolwarm','cubehelix','dark:salmon_r'))
         option6 = st.slider('Number of contour level:', 0, 200, 20)
 
