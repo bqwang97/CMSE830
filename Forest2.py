@@ -244,14 +244,14 @@ with tab3:
     Random_State_rf = col3.slider('Input a value for random state', 0, 200, 40)
     Random_Forest_Object = RandomForestRegressor(n_estimators=Estimator, random_state=Random_State_rf)
 
-    Scaler_Type = col4.selectbox('Select scaler object:',['Min-Max Scaler', 'Standard Scaler'],index = 1)
-    if Scaler_Type == 'Min-Max Scaler':
-        Scaler_Object = MinMaxScaler()
-    elif Scaler_Type == 'Standard Scaler':
-        Scaler_Object = StandardScaler()
-    Scaler_Object.fit(X_rf_train)    
-    X_rf_train_scaled = Scaler_Object.transform(X_rf_train)
-    X_rf_test_scaled = Scaler_Object.transform(X_rf_test)
+    Scaler_Type_rf = col4.selectbox('Select scaler object:',['Min-Max Scaler', 'Standard Scaler'],index = 1)
+    if Scaler_Type_rf == 'Min-Max Scaler':
+        Scaler_Object_rf = MinMaxScaler()
+    elif Scaler_Type_rf == 'Standard Scaler':
+        Scaler_Object_rf = StandardScaler()
+    Scaler_Object_rf.fit(X_rf_train)    
+    X_rf_train_scaled = Scaler_Object_rf.transform(X_rf_train)
+    X_rf_test_scaled = Scaler_Object_rf.transform(X_rf_test)
     
     Random_Forest_Object.fit(X_rf_train_scaled, y_rf_train)
     rf_reg_predictions = Random_Forest_Object.predict(X_rf_test_scaled)
