@@ -117,11 +117,11 @@ with tab2:
         st.pyplot(plt)
     with tab9:
         col1, col2 = st.columns(2,gap='small')
-        fig1 = sns.histplot(data=df_forest, x = 'area')
-        col1.pyplot(fig1)
+        fig = sns.histplot(data=df_forest, x = 'area')
+        col1.plotly_chart(fig)  
 
-        fig2 = sns.histplot(data=df_forest, x = 'Logarea')
-        col2.pyplot(fig2)
+        fig = sns.histplot(data=df_forest, x = 'Logarea')
+        col2.plotly_chart(fig)  
     with tab10:
         st.markdown('<p class="font_subtext">Fig. 5: Contour Plot Showing Influence on Burned Area. </p>', unsafe_allow_html=True)
         st.markdown('<p class="font_text"> From the previous visualization, the direct relationship between weather indicators and the extent of burned areas was not immediately clear. Hence, we decided to focus on pairs of weather features, visualizing them through 2D contour plots. This approach aims to provide a clearer perspective on their combined influence on forest fires. </p>', unsafe_allow_html=True)
