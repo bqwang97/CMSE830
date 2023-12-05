@@ -185,7 +185,8 @@ with tab3:
     Scaler = st.checkbox('Applying Scaler object for linear regression fitting')
     df_forest_scaler = df_forest.drop(['X','Y','month','day'], axis=1)
     col1 , col2 , col3 = st.columns(3,gap='small')
-    Feature_Variable = col2.multiselect('Select feature(s) for linear regression:',df_forest_scaler.columns, default = 'temp')
+    Feature_Variable = col2.multiselect('Select feature(s) for linear regression:',
+                                        ['FFMC','DMC','DC','ISI','temp','RH','wind','rain'], default = 'temp')
     X = df_forest_scaler[Feature_Variable]
     y = df_forest_scaler['Logarea']
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
