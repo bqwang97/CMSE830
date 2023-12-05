@@ -116,12 +116,16 @@ with tab2:
         ##plt.title("Feature Correlation Heatmap")
         st.pyplot(plt)
     with tab9:
+        st.markdown('<p class="font_subtext">Fig. 5: Histplot Showing the difference for area and logarea distribution. </p>', unsafe_allow_html=True)
         col1, col2 = st.columns(2,gap='small')
-        fig = sns.histplot(data=df_forest, x = 'area')
-        col1.pyplot(fig)  
-
-        fig2 = sns.histplot(data=df_forest, x = 'Logarea')
-        col2.pyplot(fig2)  
+        with col1:
+            fig, ax = plt.subplots()
+            sns.histplot(data=df_forest, x='area', ax=ax)
+            st.pyplot(fig)
+        with col2:
+            fig, ax = plt.subplots()
+            sns.histplot(data=df_forest, x='Logarea', ax=ax)
+            st.pyplot(fig)
     with tab10:
         st.markdown('<p class="font_subtext">Fig. 5: Contour Plot Showing Influence on Burned Area. </p>', unsafe_allow_html=True)
         st.markdown('<p class="font_text"> From the previous visualization, the direct relationship between weather indicators and the extent of burned areas was not immediately clear. Hence, we decided to focus on pairs of weather features, visualizing them through 2D contour plots. This approach aims to provide a clearer perspective on their combined influence on forest fires. </p>', unsafe_allow_html=True)
