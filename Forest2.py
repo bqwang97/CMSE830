@@ -238,7 +238,7 @@ with tab3:
                                         ['FFMC','DMC','DC','ISI','temp','RH','wind','rain'], default = 'temp')
     X_rf = df_forest_scaler[Feature_Variable2]
     y_rf = df_forest_scaler['Logarea']
-    X_rf_train, X_rf_test, y_rf_train, y_rf_test = train_test_split(X_rf, y_rf, test_size=0.3)
+    X_rf_train, X_rf_test, y_rf_train, y_rf_test = train_test_split(X_rf, y_rf, test_size=0.2)
     
     Estimator = col2.slider('Input a value for estimator',0,200)
     Random_State_rf = col3.slider('Input a value for random state', 0, 200, 40)
