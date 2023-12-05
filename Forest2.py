@@ -44,7 +44,9 @@ with tab1:
     ##st.subheader("Background")
     st.markdown('<p class="font_text">Considering the global warming, the increasing forest fires are more and more serious. </p>', unsafe_allow_html=True)
     st.markdown('<p class="font_text">The primary goal of analysis of dataset "Forestfires" is to understand the interplay of various meteorological and spatial factors that influence forest fires occurrence and magnitude. By doing so, we aim to answer the questions below: What are the most influential determinants that lead to forest fires, and how could we predict future outbreaks and spread of these fires? If we can solve these problems, we can take preventive measures to minimize the air pollution and surrounding damage caused by forest fires.</p>', unsafe_allow_html=True)
+    st.markdown('<p class="font_text"> We choose the "Forestfires" dataset from UCI. This datasets provides a comprehensive view of both meteorological and spatial factors within the Montesinho park map, allowing for a detailed analysis of how these elements correlate with the extent of forest fires. The forestfires dataset originates from the Montesinho natural park in the Tra ́s-os-Montes northeast region of Portugal. The dataset was collected from January 2000 to December 2003 and it was built using two sources. There is no issue of missingness in the dataset. There are 516 rows and 13 columns in the dataset.</p>', unsafe_allow_html=True)
     
+    df_columns = df_forest.columns
     df_forest = pd.read_csv("forestfires.csv") # load data
     def month_to_quarter(month):
         if month in ['jan', 'feb', 'mar']:
@@ -71,9 +73,7 @@ with tab1:
 
 ####################################################################################################################################################################
     st.sidebar.markdown('<p class="font_text">Dataset Description:</p>', unsafe_allow_html=True)
-    st.sidebar.markdown('<p class="font_text"> We choose the "Forestfires" dataset from UCI. This datasets provides a comprehensive view of both meteorological and spatial factors within the Montesinho park map, allowing for a detailed analysis of how these elements correlate with the extent of forest fires. The forestfires dataset originates from the Montesinho natural park in the Tra ́s-os-Montes northeast region of Portugal. The dataset was collected from January 2000 to December 2003 and it was built using two sources. There is no issue of missingness in the dataset. There are 516 rows and 13 columns in the dataset.</p>', unsafe_allow_html=True)
     
-    df_columns = df_forest.columns
     selected_options = st.sidebar.multiselect("**Let's see the description of different columns present in the dataset. Select column names to see their brief description**", df_columns)
     description = {"X": "x-axis coordinate (from 1 to 9) within the park.", 
                    "Y": "y-axis coordinate (from 1 to 9) within the park.", 
@@ -92,7 +92,7 @@ with tab1:
                    "Logarea": "To reduce skewness and improve symmetry, the logarithm function y = ln(x + 1) was applied to the area attribute"
                    }
     for option in selected_options:
-            st.sidebar.write(f"**Description of {option}:** {description[option]}")
+            st.sidebar.markdown(f"**Description of {option}:** {description[option]}")
 ##############################################################################################################################################
 with tab2:
     st.markdown('<p class="font_header">Interactive Visualization: </p>', unsafe_allow_html=True)
@@ -100,13 +100,13 @@ with tab2:
 
     st.sidebar.markdown('<p class="font_text">Fig. 4: Matrix plot configuration:</p>', unsafe_allow_html=True)
     col1,col2=st.columns(2,gap='small')
-    
+
     x_variable = col1.multiselect('Select features for x-axis of pairplot:',df_forest.drop(columns=['X', 'Y']).columns,default = "temp")
     y_variable = col1.multiselect('Select features for y-axis of pairplot:',df_forest.drop(columns=['X', 'Y']).columns,default = "Logarea")
     pairplot_hue = st.sidebar.select_slider('Select hue for matrixplot:',options=['month', 'day'],value='None')
 
-    fig1=sns.pairplot(data=df_forest,x_vars=x_variable,y_vars=y_variable, kind='scatter',hue=pairplot_hue,palette='hsv')
-   
+    fig1 = sns.pairplot(data=df_forest,x=x_variable,y=y_variable, kind='scatter',hue=pairplot_hue,palette='hsv')
+    st.pyplot(fig1)
  ####################################################################################################################################################################
     tab8, tab9,tab10 = st.tabs(["Heatmap", "Jointplot","Histogram"])
     with tab8:
