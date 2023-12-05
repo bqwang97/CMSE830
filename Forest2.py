@@ -102,7 +102,7 @@ with tab2:
 
     pairplot_options_x = col1.multiselect('Select features for x-axis of pairplot:',df_forest.drop(columns=['month','day','X', 'Y']).columns,default = "temp")
     pairplot_options_y = col2.multiselect('Select features for y-axis of pairplot:',df_forest.drop(columns=['month','day','X', 'Y']).columns,default = "Logarea")
-    pairplot_hue = st.sidebar.select_slider('Select hue for matrixplot:',options=['month', 'day'])
+    pairplot_hue = st.sidebar.select_slider('Select hue for matrixplot:',options=['quarter', 'month'])
     #hue = pairplot_hue if pairplot_hue != 'None' else None
     fig1 = sns.pairplot(data=df_forest,x_vars=pairplot_options_x,y_vars=pairplot_options_y, hue=pairplot_hue)
     st.pyplot(fig1)
@@ -117,23 +117,14 @@ with tab2:
         st.pyplot(plt)
         
     with tab9:  
-        option3 = st.selectbox(
-            'Feature 1', df_forest.drop(columns=['month','day','X', 'Y']).columns,default = "temp")
-
-        option4 = st.selectbox(
-            'Feature 2', df_forest.drop(columns=['month','day','X', 'Y']).columns,default = "Logarea")
-
-        option5 = st.selectbox(
-            'Color map:',
-            ('mako','viridis','rocket','Spectral','coolwarm','cubehelix','dark:salmon_r'))
-
+        option3 = st.selectbox('Feature 1', df_forest.drop(columns=['month','day','X', 'Y']).columns,default = "temp")
+        option4 = st.selectbox('Feature 2', df_forest.drop(columns=['month','day','X', 'Y']).columns,default = "Logarea")
+        option5 = st.selectbox('Color map:',('mako','viridis','rocket','Spectral','coolwarm','cubehelix','dark:salmon_r'))
         option6 = st.slider('Number of contour level:', 0, 200, 20)
 
         sns.set_theme(style="white")
         fig = sns.JointGrid(data=df_forest, x=option3, y=option4, space=0)
-        fig.plot_joint(sns.kdeplot,
-                     fill=True,
-                     thresh=0, levels=option6, cmap=option5)
+        fig.plot_joint(sns.kdeplot,fill=True,thresh=0, levels=option6, cmap=option5)
         fig.plot_marginals(sns.histplot, color="blue", alpha=1, bins=30)
         st.pyplot(fig)
         st.markdown('<p class="font_subtext">Fig. 5: Jointplot for two of the investigated features.</p>', unsafe_allow_html=True)
