@@ -104,9 +104,10 @@ with tab2:
     pairplot_options_y = col2.multiselect('Select features for y-axis of pairplot:',df_forest.drop(columns=['month','day','X', 'Y']).columns,default = "Logarea")
     pairplot_hue = st.sidebar.select_slider('Select hue for matrixplot:',options=['quarter', 'month'])
     #hue = pairplot_hue if pairplot_hue != 'None' else None
-    fig1 = sns.pairplot(data=df_forest,x_vars=pairplot_options_x,y_vars=pairplot_options_y, hue=pairplot_hue)
+    fig1 = sns.pairplot(data=df_forest,x_vars=pairplot_options_x,y_vars=pairplot_options_y, hue=pairplot_hue, palette='hsv')
     
     df_forestf1 = df_forest.drop(['X','Y','month','day'],axis =1)
+    
     c=alt.Chart(df_forest).mark_circle().encode(
         alt.X(alt.repeat("column"), type='quantitative'),
         alt.Y(alt.repeat("row"), type='quantitative'),
