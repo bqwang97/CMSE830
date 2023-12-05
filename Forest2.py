@@ -100,11 +100,11 @@ with tab2:
     st.sidebar.markdown('<p class="font_text">Fig. 4: Matrix plot configuration:</p>', unsafe_allow_html=True)
     col1,col2=st.columns(2,gap='small')
 
-    x_variable = col1.multiselect('Select features for x-axis of pairplot:',df_forest.drop(columns=['X', 'Y']).columns,default = "temp")
-    y_variable = col1.multiselect('Select features for y-axis of pairplot:',df_forest.drop(columns=['X', 'Y']).columns,default = "Logarea")
+    pairplot_options_x = col1.multiselect('Select features for x-axis of pairplot:',df_forest.drop(columns=['month','day','X', 'Y']).columns,default = "temp")
+    pairplot_options_y = col1.multiselect('Select features for y-axis of pairplot:',df_forest.drop(columns=['month','day','X', 'Y']).columns,default = "Logarea")
     pairplot_hue = st.sidebar.select_slider('Select hue for matrixplot:',options=['None','month', 'day'],value='None')
     hue = pairplot_hue if pairplot_hue != 'None' else None
-    fig1 = sns.pairplot(data=df_forest,vars = [x_variable,y_variable], kind='scatter',hue=pairplot_hue,palette='hsv')
+    fig1 = sns.pairplot(data=df_forest,x_vars=pairplot_options_x,y_vars=pairplot_options_y, kind='scatter',hue=pairplot_hue,palette='hsv')
     st.pyplot(fig1)
  ####################################################################################################################################################################
     tab8, tab9,tab10 = st.tabs(["Heatmap", "Jointplot","Histogram"])
