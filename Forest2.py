@@ -97,7 +97,7 @@ with tab1:
 ##############################################################################################################################################
 with tab2:
     st.markdown('<p class="font_header">Interactive Visualization: </p>', unsafe_allow_html=True)
-    st.markdown('<p class="font_text">Several visualization are developed to study possible existing trend between different features of the dataset. Moreover, some of the figures are based on the target variable of the dataset which is the burned area and it's spatial distribution. </p>', unsafe_allow_html=True)
+    st.markdown('<p class="font_text">Several visualization are developed to study possible existing trend between different features of the dataset. Moreover, some of the figures are based on the target variable of the dataset which is the burned area and its spatial distribution. </p>', unsafe_allow_html=True)
 
     st.sidebar.markdown('<p class="font_text">Fig. 4: Matrix plot configuration:</p>', unsafe_allow_html=True)
     col1,col2=st.columns(2,gap='small')
