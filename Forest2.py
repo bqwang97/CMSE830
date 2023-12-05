@@ -358,10 +358,10 @@ with tab4:
     fig2 = go.Figure()
     fig2.add_trace(go.Scatter(x=DNN_Dataframe.iloc[:,0], y=DNN_Dataframe.iloc[:,1],marker_symbol='square',
                             mode='markers',
-                            name='Actual '+Target_Variable_DNN[0] + ' vs. Index'))
+                            name='Actual '))
     fig2.add_trace(go.Scatter(x=DNN_Dataframe.iloc[:,0], y=DNN_Dataframe.iloc[:,2],marker_symbol='circle',
                             mode='markers',
-                            name='Prediction '+Target_Variable_DNN[0] + ' vs. Index'))
+                            name='Prediction '))
 ####################################################################################################################################################################
 #Reference
 st.markdown('<p class="font_header">References: </p>', unsafe_allow_html=True)
