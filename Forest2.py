@@ -184,8 +184,8 @@ with tab3:
     st.markdown('<p class="font_header">Linear Regression:</p>', unsafe_allow_html=True)
     Scaler = st.checkbox('Applying Scaler object for linear regression fitting')
     df_forest_scaler = df_forest.drop(['X','Y','month','day'], axis=1)
-    col1 , col2 , col3 = st.columns(3,gap='small')
-    Feature_Variable = col2.multiselect('Select feature(s) for linear regression:',
+    col1 , col2 = st.columns(2,gap='small')
+    Feature_Variable = col1.multiselect('Select feature(s) for linear regression:',
                                         ['FFMC','DMC','DC','ISI','temp','RH','wind','rain'], default = 'temp')
     X = df_forest_scaler[Feature_Variable]
     y = df_forest_scaler['Logarea']
@@ -193,7 +193,7 @@ with tab3:
     Index=np.linspace(0,y_test.size-1,y_test.size).astype(int)
 
     if Scaler:
-        Scaler_Type = col3.selectbox('Select scaler object:',['Min-Max Scaler', 'Standard Scaler'],index = 1)
+        Scaler_Type = col2.selectbox('Select scaler object:',['Min-Max Scaler', 'Standard Scaler'],index = 1)
         if Scaler_Type == 'Min-Max Scaler':
             Scaler_Object = MinMaxScaler()
         elif Scaler_Type == 'Standard Scaler':
@@ -225,6 +225,48 @@ with tab3:
                         mode='markers',
                         name='Actual'))
     fig.add_trace(go.Scatter(x=Linear_Dataframe['Index'], y=Linear_Dataframe['Predict'],marker_symbol='circle',
+                        mode='markers',
+                        name='Prediction'))
+
+    st.plotly_chart(fig)
+    ###################################################################################################
+    st.markdown('<p class="font_header">Random Forest:</p>', unsafe_allow_html=True)
+    col1 , col2, col3,col4= st.columns(4,gap='small')
+    Feature_Variable = col1.multiselect('Select feature(s) for linear regression:',
+                                        ['FFMC','DMC','DC','ISI','temp','RH','wind','rain'], default = 'temp')
+    Estimator = col2.slider('Input a value for estimator',0,200)
+    Random_State_rf = col3.slider('Input a value for random state', 0, 200, 40)
+    Random_Forest_Object = RandomForestRegressor(n_estimators=Estimator, random_state=Random_State_rf)
+
+    Scaler_Type = col4.selectbox('Select scaler object:',['Min-Max Scaler', 'Standard Scaler'],index = 1)
+    if Scaler_Type == 'Min-Max Scaler':
+        Scaler_Object = MinMaxScaler()
+    elif Scaler_Type == 'Standard Scaler':
+        Scaler_Object = StandardScaler()
+    Scaler_Object.fit(X_train)    
+    X_train_scaled = Scaler_Object.transform(X_train)
+    X_test_scaled = Scaler_Object.transform(X_test)
+
+    
+    Random_Forest_Object.fit(X_train_scaled, y_train)
+    rf_reg_predictions = Random_Forest_Object.predict(X_test_scaled)
+    rf_reg_mse = mean_squared_error(y_test, rf_reg_predictions)
+    rf_reg_r2 = r2_score(y_test, rf_reg_predictions)
+    st.write('For random forest regression methods ', 'the accuracy score based on r2 ',np.round(rf_reg_r2),'.')
+    st.write('For random forest regression methods ', 'the Mean Squared Error is  ',np.round(rf_reg_mse),'.')
+
+    Index=np.linspace(0,y_test.size-1,y_test.size).astype(int)
+    RF_Dataframe=pd.DataFrame(index=np.arange(len(y_test)), columns=np.arange(3))
+    RF_Dataframe.columns=['Index','Actual','Predict']
+    RF_Dataframe['Index'] = Index
+    RF_Dataframe['Actual'] = y_test.reset_index(drop=True)
+    RF_Dataframe['Predict'] = rf_reg_predictions
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=RF_Dataframe['Index'], y=RF_Dataframe['Actual'],marker_symbol='square',
+                        mode='markers',
+                        name='Actual'))
+    fig.add_trace(go.Scatter(x=RF_Dataframe['Index'], y=RF_Dataframe['Predict'],marker_symbol='circle',
                         mode='markers',
                         name='Prediction'))
 
