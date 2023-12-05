@@ -15,6 +15,11 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.ensemble import RandomForestRegressor
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
+from sklearn.neural_network import MLPRegressor
+from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.gaussian_process.kernels import RBF, RationalQuadratic, Matern, ExpSineSquared,DotProduct
+from sklearn.multioutput import MultiOutputRegressor
+
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 st.set_page_config(layout="wide")
@@ -276,6 +281,87 @@ with tab3:
                         name='Prediction'))
 
     st.plotly_chart(fig)
+####################################################################################################################################################################
+# Neural Network Regression
+with tab4:
+    Feature_Variable_DNN = st.multiselect('Select feature(s) for Neural Network Regression:',
+                                        ['FFMC','DMC','DC','ISI','temp','RH','wind','rain'], default = 'temp')
+    Target_Variable_DNN = df_forest_scaler['Logarea']
+    Num_Hidden_Layer_DNN = st.selectbox('Number of Hidden Layers for NN Regression: ',(1, 2, 3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20), index=0)
+
+    cols = st.columns(Num_Hidden_Layer_DNN)
+    Num_Neuron_DNN=np.zeros(Num_Hidden_Layer_DNN)
+    for j in range (Num_Hidden_Layer_DNN):
+                with cols[j]:
+                    Num_Neuron_DNN[j] = st.slider('Number of Neurons in '+str(j+1)+' Hidden Layer for regression:', min_value=1, max_value=45, value=10, step=1)
+    Num_Neuron_DNN=Num_Neuron_DNN.astype(int)
+    col1 , col2 , col3 , col4, col5= st.columns(5,gap='small')
+    st.write(' ')
+    Activation_DNN = col1.selectbox('Select activation function:',['identity', 'relu', 'logistic', 'tanh'],index = 0)
+    Solver_DNN = col2.selectbox('Select solver type:',['adam', 'sgd', 'lbfgs'],index = 0)
+    Alpha_DNN = col3.number_input('Input a non-negative value for alpha: ',value=0.01,format='%f')
+    Learning_Rate_DNN = col4.selectbox('Select learning rate type:',['constant', 'invscaling', 'adaptive'],index = 0)
+    Learning_Rate_Init_DNN = col5.number_input('Input a value for initial learning rate: ',value=0.001,format='%f')
+
+    st.write(' ')
+    col1 , col2 , col3 , col4, col5= st.columns(5,gap='small')
+    st.write(' ')
+    Validation_Fraction_DNN = col2.number_input('Input a value for validation fraction:',value=0.2,format='%f')
+    Max_Iteration_DNN = col3.slider('Input a value for number of iteration:', 0, 20000, 200)
+    Random_State_DNN = col5.slider('Input a value for random state', 0, 200, 40)
+    Tolerence_DNN = col1.number_input('Input a value for tolerence: ',value=0.0001,format='%f')
+    Batch_Size_DNN = col4.slider('Input a value for batch size:', 0, len(y_test), 40)
+
+    st.write(' ')
+    col1, col2, col3= st.columns(3,gap='small')
+    st.write(' ')
+    Y_DNN = data[Target_Variable_DNN].to_numpy()
+    X_DNN = data[Feature_Variable_DNN].to_numpy()
+    Train_Size_DNN = col1.number_input('Input a value for train-size ratio:',value=0.8,format='%f')
+    
+    Scaler_DNN = col2.checkbox('Applying Scaler object for neural network regression')
+    X_Train_DNN, X_Test_DNN, Y_Train_DNN, Y_Test_DNN = train_test_split(X_DNN, Y_DNN, train_size=Train_Size_DNN)
+
+    if Scaler_DNN:
+        Scaler_Type_DNN = col3.selectbox('Select NN scaler object:',['Min-Max Scaler', 'Standard Scaler'],index = 0)
+        if Scaler_Type_DNN == 'Min-Max Scaler':
+            Scaler_Object_DNN = MinMaxScaler()
+        elif Scaler_Type_DNN == 'Standard Scaler':
+            Scaler_Object_DNN = StandardScaler()
+            
+        X_Train_Scaled_DNN =Scaler_Object_DNN.transform(X_Train_DNN)
+        X_Test_Scaled_DNN =Scaler_Object_DNN.transform(X_Test_DNN)
+        
+    MLP_Object=MLPRegressor(hidden_layer_sizes=Num_Neuron, activation=Activation_DNN, solver=Solver_DNN,
+             alpha=Alpha_DNN, batch_size=Batch_Size_DNN, learning_rate=Learning_Rate_DNN,
+             learning_rate_init=Learning_Rate_Init_DNN, max_iter=Max_Iteration_DNN, shuffle=True)
+    
+    if Scaler_DNN:
+        MLP_Object.fit(X_Train_Scaled_DNN, Y_Train_DNN)
+        score_DNN =MLP_Object.score(X_Test_Scaled_DNN, Y_Test_DNN)
+        Y_Predic_DNN = MLP_Object.predict(X_Test_Scaled_DNN)
+    else:
+        MLP_Object.fit(X_Train_DNN, Y_Train_DNN)
+        score_DNN =MLP_Object.score(X_Test_DNN, Y_Test_DNN)
+        Y_Predic_DNN = MLP_Object.predict(X_Test_DNN)
+        
+    st.write(' ')
+    st.markdown('<p class="font_text">Accuracy of the investigated (deep) neural network architecture:</p>', unsafe_allow_html=True)
+    st.write(' ')
+    Index_DNN=np.linspace(0,Y_Test_DNN.size-1,Y_Test_DNN.size).astype(int)
+    DNN_Dataframe=pd.DataFrame(index=np.arange(len(Y_Test_DNN)), columns=np.arange(3))
+    DNN_Dataframe.columns=['Index','Actual','Predict']
+    DNN_Dataframe['Index'] = Index_rf
+    DNN_Dataframe['Actual'] = Y_Test_DNN.reset_index(drop=True)
+    DNN_Dataframe['Predict'] = Y_Predic_DNN
+    
+    fig2 = go.Figure()
+    fig2.add_trace(go.Scatter(x=DNN_Dataframe.iloc[:,0], y=DNN_Dataframe.iloc[:,1],marker_symbol='square',
+                            mode='markers',
+                            name='Actual '+Target_Variable_DNN[0] + ' vs. Index'))
+    fig2.add_trace(go.Scatter(x=DNN_Dataframe.iloc[:,0], y=DNN_Dataframe.iloc[:,2],marker_symbol='circle',
+                            mode='markers',
+                            name='Prediction '+Target_Variable_DNN[0] + ' vs. Index'))
 ####################################################################################################################################################################
 #Reference
 st.markdown('<p class="font_header">References: </p>', unsafe_allow_html=True)
