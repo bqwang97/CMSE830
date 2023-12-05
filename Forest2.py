@@ -106,7 +106,7 @@ with tab2:
     #hue = pairplot_hue if pairplot_hue != 'None' else None
     fig1 = sns.pairplot(data=df_forest,x_vars=pairplot_options_x,y_vars=pairplot_options_y, hue=pairplot_hue)
     st.pyplot(fig1)
- ####################################################################################################################################################################
+    #################################################################################################################################################################
     tab8, tab9,tab10 = st.tabs(["Heatmap", "Jointplot","Histogram"])
     with tab8:
         plt.figure(figsize=(8, 7))
@@ -141,7 +141,7 @@ with tab2:
                                  labels={'area': 'Burned Area'},width=800, height=600)
         fig.update_traces(contours_coloring="fill", contours_showlabels = True,colorscale='Spectral')
         st.plotly_chart(fig)   
-###################################################################################################
+    ###################################################################################################
     st.header("Spatial Distribution of Fires within the Montesinho park") #write figure title
     st.markdown('<p class="font_text"> The spatial distribution of fires within the Montesinho Park is very important to investigate the fire trends. From the scatter plot we could see the location where the fire happens. </p>', unsafe_allow_html=True)
     st.markdown('<p class="font_text"> The visualizations effectively communicate the spatial distribution of forest fires throughout different times of the year, emphasizing the significance of the third quarter (July to September) in the frequency of fires. </p>', unsafe_allow_html=True)
