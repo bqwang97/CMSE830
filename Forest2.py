@@ -351,7 +351,7 @@ with tab4:
     Index_DNN=np.linspace(0,Y_Test_DNN.size-1,Y_Test_DNN.size).astype(int)
     DNN_Dataframe=pd.DataFrame(index=np.arange(len(Y_Test_DNN)), columns=np.arange(3))
     DNN_Dataframe.columns=['Index','Actual','Predict']
-    DNN_Dataframe['Index'] = Index_rf
+    DNN_Dataframe['Index'] = Index_DNN
     DNN_Dataframe['Actual'] = Y_Test_DNN.reset_index(drop=True)
     DNN_Dataframe['Predict'] = Y_Predic_DNN
     
