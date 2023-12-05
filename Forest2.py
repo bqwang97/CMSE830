@@ -102,8 +102,8 @@ with tab2:
 
     pairplot_options_x = col1.multiselect('Select features for x-axis of pairplot:',df_forest.drop(columns=['month','day','X', 'Y']).columns,default = "temp")
     pairplot_options_y = col2.multiselect('Select features for y-axis of pairplot:',df_forest.drop(columns=['month','day','X', 'Y']).columns,default = "Logarea")
-    pairplot_hue = st.sidebar.select_slider('Select hue for matrixplot:',options=['None','month', 'day'],value='None')
-    hue = pairplot_hue if pairplot_hue != 'None' else None
+    pairplot_hue = st.sidebar.select_slider('Select hue for matrixplot:',options=['month', 'day'])
+    #hue = pairplot_hue if pairplot_hue != 'None' else None
     fig1 = sns.pairplot(data=df_forest,x_vars=pairplot_options_x,y_vars=pairplot_options_y, hue=pairplot_hue)
     st.pyplot(fig1)
  ####################################################################################################################################################################
