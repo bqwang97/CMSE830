@@ -107,7 +107,7 @@ with tab2:
     fig1 = sns.pairplot(data=df_forest,x_vars=pairplot_options_x,y_vars=pairplot_options_y, hue=pairplot_hue)
     st.pyplot(fig1)
     
-    tab8, tab9,tab10 = st.tabs(["Heatmap", "Jointplot","Contourplot"])
+    tab8, tab9,tab10 = st.tabs(["Heatmap", "Jointplot", "Contourplot"])
     with tab8:
         plt.figure(figsize=(8, 7))
         df_forestf1 = df_forest.drop(['X','Y','month','day'],axis =1)
@@ -119,8 +119,8 @@ with tab2:
     with tab9:
         st.markdown('<p class="font_subtext">Fig. 5: Jointplot for two of the investigated features.</p>', unsafe_allow_html=True)
         df_forestf1 = df_forest.drop(['X','Y','month','day'],axis =1)
-        option3 = st.selectbox('Feature 1', df_forestf1.columns,index=1 )
-        option4 = st.selectbox('Feature 2', df_forestf1.columns,index=2)
+        option3 = st.selectbox('Feature 1', df_forestf1.columns)
+        option4 = st.selectbox('Feature 2', df_forestf1.columns)
         #option5 = st.selectbox('Color map:',('mako','viridis','rocket','Spectral','coolwarm'))
         #option6 = st.slider('Number of contour level:', 0, 200, 20)
 
