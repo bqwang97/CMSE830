@@ -32,148 +32,141 @@ font-size:22px ; font-family: "Times New Roman" ; color: black;text-align: left;
 st.markdown(""" <style> .font_subtext {
 font-size:18px ; font-family: "Times New Roman" ; color: black;text-align: center;} 
 </style> """, unsafe_allow_html=True)
+
 ####################################################################################################################################################################
-st.title("Exploring the Forest Fires Dataset")
-col1, col2= st.columns([1,3])
-col1.subheader("Background")
-col1.markdown('<p class="font_text">Considering the global warming, the increasing forest fires are more and more serious. </p>', unsafe_allow_html=True)
-col1.markdown('<p class="font_text">The primary goal of analysis of dataset "Forestfires" is to understand the interplay of various meteorological and spatial factors that influence forest fires occurrence and magnitude. By doing so, we aim to answer the questions below: What are the most influential determinants that lead to forest fires, and how could we predict future outbreaks and spread of these fires? If we can solve these problems, we can take preventive measures to minimize the air pollution and surrounding damage caused by forest fires.</p>', unsafe_allow_html=True)
-col2.image("https://www.greenpeace.org/static/planet4-international-stateless/2022/09/fbc851c4-gp1szphr_.jpg", width=700)
-
-col2.divider()
+st.image("https://www.greenpeace.org/static/planet4-international-stateless/2022/09/fbc851c4-gp1szphr_.jpg", width=700)
 ####################################################################################################################################################################
-df_forest = pd.read_csv("forestfires.csv") # load data
-def month_to_quarter(month):
-    if month in ['jan', 'feb', 'mar']:
-        return 'Q1: Jan-Mar'
-    elif month in ['apr', 'may', 'jun']:
-        return 'Q2: Apr-Jun'
-    elif month in ['jul', 'aug', 'sep']:
-        return 'Q3: Jul-Sep'
-    else:
-        return 'Q4: Oct-Dec'
-df_forest['quarter'] = df_forest['month'].apply(month_to_quarter)
-##df_forest= df_forest[df_forest['area'] !=0]
-df_forest['Logarea'] = np.log1p(df_forest['area'])
+tab1, tab2 , tab3 , tab4 ,tab5 , tab6 , tab7= st.tabs(["Forest Fires Dataset", "Interactive Visualization","Regression Models",
+ "Neural Network Visualization","Neural Network Regression","","])
+####################################################################################################################################################################
+##Forest Fires Dataset 
+with tab1:                                                        
+    st.title("Exploring the Forest Fires Dataset")
+    ##st.subheader("Background")
+    st.markdown('<p class="font_text">Considering the global warming, the increasing forest fires are more and more serious. </p>', unsafe_allow_html=True)
+    st.markdown('<p class="font_text">The primary goal of analysis of dataset "Forestfires" is to understand the interplay of various meteorological and spatial factors that influence forest fires occurrence and magnitude. By doing so, we aim to answer the questions below: What are the most influential determinants that lead to forest fires, and how could we predict future outbreaks and spread of these fires? If we can solve these problems, we can take preventive measures to minimize the air pollution and surrounding damage caused by forest fires.</p>', unsafe_allow_html=True)
+    
+    df_forest = pd.read_csv("forestfires.csv") # load data
+    def month_to_quarter(month):
+        if month in ['jan', 'feb', 'mar']:
+            return 'Q1: Jan-Mar'
+        elif month in ['apr', 'may', 'jun']:
+            return 'Q2: Apr-Jun'
+        elif month in ['jul', 'aug', 'sep']:
+            return 'Q3: Jul-Sep'
+        else:
+            return 'Q4: Oct-Dec'
+    df_forest['quarter'] = df_forest['month'].apply(month_to_quarter)
+    df_forest['Logarea'] = np.log1p(df_forest['area'])
+    
+    col1,col2=st.columns(2,gap='small')
+    forest_stat = col1.checkbox('Show statistical properties of Forest Fires dataset')
+    if forest_stat==True:
+        st.table(df_forest.describe())
+        st.markdown('<p class="font_subtext">Table 1: Statistical properties of Forestfires attributes.</p>', unsafe_allow_html=True)
 
+    forest_show = col2.checkbox('Show ForestFires Data')
+    if forest_show==True:
+        st.table(df_forest.head(20))
+        st.markdown('<p class="font_subtext">Table 2: Forestfires dataset.</p>', unsafe_allow_html=True)
 
-col1.subheader("Dataset Description ")
-col1.markdown('<p class="font_text"> We choose the "Forestfires" dataset from UCI. This datasets provides a comprehensive view of both meteorological and spatial factors within the Montesinho park map, allowing for a detailed analysis of how these elements correlate with the extent of forest fires. The forestfires dataset originates from the Montesinho natural park in the Tra ́s-os-Montes northeast region of Portugal. The dataset was collected from January 2000 to December 2003 and it was built using two sources. There is no issue of missingness in the dataset. There are 516 rows and 13 columns in the dataset.</p>', unsafe_allow_html=True)
-col2.header("Let's explore the dataset")
-df_columns = df_forest.columns
-selected_options = col2.multiselect("**Let's see the description of different columns present in the dataset. Select column names to see their brief description**", df_columns)
-description = {"X": "x-axis coordinate (from 1 to 9) within the park.", 
-               "Y": "y-axis coordinate (from 1 to 9) within the park.", 
-               "month": "Month of the year (January to December)", 
-               "day": "Day of the week (Monday to Sunday)",
-               "FFMC": "Fine Fuel Moisture Code denotes moisture content surface litter and influences ignition and fire spread. A high FFMC value suggests that the fine fuels are dry and conditions are suitable for the easy spread of fire.", 
-               "DMC": "Duff Moisture Code represents moisture content of shallow organic layers which affect fire intensity.", 
-               "DC": "Drought Code is an index of the moisture content of deep, compact organic layers. High DC values indicates that the deep organic layers are dry and there is a higher risk of more intense fires ", 
-               "ISI": "Initial Spread Index correlates with fire velocity spread. High ISI value occurs during conditions of high wind and low fine fuel moisture content, suggesting rapid fire spread.", 
-               "temp": "Outside temperature (in Celsius )",
-               "RH": "Outside relative humidity (in %)",
-               "wind": "Outside wind speed (in km/h)",
-               "rain": "Outside rain (in mm/m )",
-               "area": "Total burned area (in ha)",
-               "quarter": " I added quarter column by dividing the month into four groups: Jan to Mar, Apr to Jun, July to Sep and Oct to Dec. In this way, the distribution of the fires could be easier be visualized",
-               "Logarea": "To reduce skewness and improve symmetry, the logarithm function y = ln(x + 1) was applied to the area attribute"
-               }
-for option in selected_options:
-        col2.write(f"**Description of {option}:** {description[option]}")
-col2.dataframe(df_forest.head()) # prints head in web app
-
-col2.divider()
+####################################################################################################################################################################
+    st.sidebar.markdown('<p class="font_text">Dataset Description:</p>', unsafe_allow_html=True)
+    st.sidebar.markdown('<p class="font_text"> We choose the "Forestfires" dataset from UCI. This datasets provides a comprehensive view of both meteorological and spatial factors within the Montesinho park map, allowing for a detailed analysis of how these elements correlate with the extent of forest fires. The forestfires dataset originates from the Montesinho natural park in the Tra ́s-os-Montes northeast region of Portugal. The dataset was collected from January 2000 to December 2003 and it was built using two sources. There is no issue of missingness in the dataset. There are 516 rows and 13 columns in the dataset.</p>', unsafe_allow_html=True)
+    
+    df_columns = df_forest.columns
+    selected_options = st.sidebar.multiselect("**Let's see the description of different columns present in the dataset. Select column names to see their brief description**", df_columns)
+    description = {"X": "x-axis coordinate (from 1 to 9) within the park.", 
+                   "Y": "y-axis coordinate (from 1 to 9) within the park.", 
+                   "month": "Month of the year (January to December)", 
+                   "day": "Day of the week (Monday to Sunday)",
+                   "FFMC": "Fine Fuel Moisture Code denotes moisture content surface litter and influences ignition and fire spread. A high FFMC value suggests that the fine fuels are dry and conditions are suitable for the easy spread of fire.", 
+                   "DMC": "Duff Moisture Code represents moisture content of shallow organic layers which affect fire intensity.", 
+                   "DC": "Drought Code is an index of the moisture content of deep, compact organic layers. High DC values indicates that the deep organic layers are dry and there is a higher risk of more intense fires ", 
+                   "ISI": "Initial Spread Index correlates with fire velocity spread. High ISI value occurs during conditions of high wind and low fine fuel moisture content, suggesting rapid fire spread.", 
+                   "temp": "Outside temperature (in Celsius )",
+                   "RH": "Outside relative humidity (in %)",
+                   "wind": "Outside wind speed (in km/h)",
+                   "rain": "Outside rain (in mm/m )",
+                   "area": "Total burned area (in ha)",
+                   "quarter": " I added quarter column by dividing the month into four groups: Jan to Mar, Apr to Jun, July to Sep and Oct to Dec. In this way, the distribution of the fires could be easier be visualized",
+                   "Logarea": "To reduce skewness and improve symmetry, the logarithm function y = ln(x + 1) was applied to the area attribute"
+                   }
+    for option in selected_options:
+            st.sidebar.write(f"**Description of {option}:** {description[option]}")
 ##############################################################################################################################################
-col2.header("Select X and Y Variables for the 'Forestfires' Dataset")
-col2.markdown('<p class="font_text"> Several visualizations are developed to study possible existing trend between different features of the dataset. </p>', unsafe_allow_html=True)
+with tab2:
+    st.markdown('<p class="font_header">Interactive Visualization: </p>', unsafe_allow_html=True)
+    st.markdown('<p class="font_text">Several visualization are developed to study possible existing trend between different features of the dataset. Moreover, some of the figures are based on the target variable of the dataset which is the burned area and it's spatial distribution. </p>', unsafe_allow_html=True)
 
-col2a, col2b = col2.columns([1,2])
-x_variable = col2a.selectbox("X Variable", df_forest.drop(columns=['X', 'Y']).columns)
-y_variable = col2a.selectbox("Y Variable", df_forest.drop(columns=['X', 'Y']).columns)
-selected_plots = col2a.multiselect("Select Plots to Display",
-                                ["Scatter Plot","JointPlot","Heatmap","Histogram"],
-                                default=["Scatter Plot"])
+    st.sidebar.markdown('<p class="font_text">Fig. 4: Matrix plot configuration:</p>', unsafe_allow_html=True)
+    col1,col2=st.columns(2,gap='small')
+    
+    x_variable = col1.multiselect('Select features for x-axis of pairplot:',df_forest.drop(columns=['X', 'Y']).columns,default = "temp")
+    y_variable = col1.multiselect('Select features for y-axis of pairplot:',df_forest.drop(columns=['X', 'Y']).columns,default = "Logarea")
+    pairplot_hue = st.sidebar.select_slider('Select hue for matrixplot:',options=['month', 'day'],value='None')
 
-if "Scatter Plot" in selected_plots:
-    col2b.subheader("Scatter Plot")
-    plt.figure(figsize=(8, 6))
-    sns.set_style("darkgrid")
-    sns.scatterplot(data=df_forest, x=x_variable, y=y_variable,color = 'red')
-    ##plt.title(f"Scatter plot between {x_variable} and {y_variable}")
-    col2b.pyplot(plt)
+    fig1=sns.pairplot(data=df_forest,x_vars=x_variable,y_vars=y_variable, kind='scatter',hue=pairplot_hue,palette='hsv')
+   
+ ####################################################################################################################################################################
+    tab8, tab9,tab10 = st.tabs(["Heatmap", "Jointplot","Histogram"])
+    with tab8:
+        plt.figure(figsize=(8, 7))
+        df_forestf1 = df_forest.drop(['X','Y','month','day'],axis =1)
+        sns.heatmap(df_forestf1.corr(), annot=True, cmap='coolwarm', fmt=".2f")
+        st.markdown('<p class="font_subtext">Fig. 5: Feature Correlation Heatmap.</p>', unsafe_allow_html=True)
+        ##plt.title("Feature Correlation Heatmap")
+        st.pyplot(plt)
+        
+    with tab9:  
+        option3 = st.selectbox(
+            'Feature 1', df_forest.drop(columns=['month','day','X', 'Y']).columns,default = "temp")
 
-if "JointPlot" in selected_plots:
-    col2b.subheader("Jointplot")
-    plt.figure(figsize=(8, 6))
-    sns.jointplot(data=df_forest, x=x_variable, y=y_variable, kind="reg", color="g")
-    #plt.title(f"Jointplot of {x_variable} vs {y_variable}")
-    col2b.pyplot(plt)
+        option4 = st.selectbox(
+            'Feature 2', df_forest.drop(columns=['month','day','X', 'Y']).columns,default = "Logarea")
 
-if "Heatmap" in selected_plots:
-    col2b.subheader("Heatmap")
-    plt.figure(figsize=(8, 7))
-    df_forestf1 = df_forest.drop(['X','Y','month','day'],axis =1)
-    sns.heatmap(df_forestf1.corr(), annot=True, cmap='coolwarm', fmt=".2f")
-    plt.title("Feature Correlation Heatmap")
-    col2b.pyplot(plt)
+        option5 = st.selectbox(
+            'Color map:',
+            ('mako','viridis','rocket','Spectral','coolwarm','cubehelix','dark:salmon_r'))
 
-if "Histogram" in selected_plots:
-    col2b.subheader("Histogram with Normal Distribution")
-    plt.figure(figsize=(8, 6))
-    sns.histplot(df_forest[x_variable], kde=True)
-    col2b.pyplot(plt)
+        option6 = st.slider('Number of contour level:', 0, 200, 20)
 
-col2.divider()
+        sns.set_theme(style="white")
+        fig = sns.JointGrid(data=df_forest, x=option3, y=option4, space=0)
+        fig.plot_joint(sns.kdeplot,
+                     fill=True,
+                     thresh=0, levels=option6, cmap=option5)
+        fig.plot_marginals(sns.histplot, color="blue", alpha=1, bins=30)
+        st.pyplot(fig)
+        st.markdown('<p class="font_subtext">Fig. 5: Jointplot for two of the investigated features.</p>', unsafe_allow_html=True)
+        
+    with tab10:
+        st.markdown('<p class="font_subtext">Fig. 5: Contour Plot Showing Influence on Burned Area. </p>', unsafe_allow_html=True)
+        st.markdown('<p class="font_text"> From the previous visualization, the direct relationship between weather indicators and the extent of burned areas was not immediately clear. Hence, we decided to focus on pairs of weather features, visualizing them through 2D contour plots. This approach aims to provide a clearer perspective on their combined influence on forest fires. </p>', unsafe_allow_html=True)
+        
+        option1 = st.selectbox('Feature 1', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =1)
+        option2 = st.selectbox('Feature 2', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =2)
+        
+        fig = px.density_contour(df_forest, x=option1, y= option2, z='area',histfunc="avg",
+                                 labels={'area': 'Burned Area'},width=800, height=600)
+        fig.update_traces(contours_coloring="fill", contours_showlabels = True,colorscale='Spectral')
+        st.plotly_chart(fig)   
 ###################################################################################################
-col1.header("Spatial Distribution of Fires within the Montesinho park") #write figure title
-col1.markdown('<p class="font_text"> The spatial distribution of fires within the Montesinho Park is very important to investigate the fire trends. From the scatter plot we could see the location where the fire happens. </p>', unsafe_allow_html=True)
-col1.markdown('<p class="font_text"> The visualizations effectively communicate the spatial distribution of forest fires throughout different times of the year, emphasizing the significance of the third quarter (July to September) in the frequency of fires. </p>', unsafe_allow_html=True)
+    st.header("Spatial Distribution of Fires within the Montesinho park") #write figure title
+    st.markdown('<p class="font_text"> The spatial distribution of fires within the Montesinho Park is very important to investigate the fire trends. From the scatter plot we could see the location where the fire happens. </p>', unsafe_allow_html=True)
+    st.markdown('<p class="font_text"> The visualizations effectively communicate the spatial distribution of forest fires throughout different times of the year, emphasizing the significance of the third quarter (July to September) in the frequency of fires. </p>', unsafe_allow_html=True)
+    
+    col1, col2 = st.columns(2,gap='small')
+    
+    col1.subheader("3D Distribution of Fires within the Montesinho park vs Quarter") #write figure title
+    fig=px.scatter_3d(df_forest, x='X', y='Y', z="Logarea",color="quarter")
+    col1.plotly_chart(fig)
+    
+    fig, ax = plt.subplots(figsize=(8,6))
+    sns.scatterplot(df_forest, x='X', y='Y', hue="Logarea", size="Logarea",sizes=(50,500))
+    col2.subheader("2D Distribution of Burned Area")
+    col2.pyplot(fig)
 
-col2a, col2b = col2.columns(2)
-
-col2a.subheader("3D Distribution of Fires within the Montesinho park vs Quarter") #write figure title
-fig=px.scatter_3d(df_forest, x='X', y='Y', z="Logarea",color="quarter")
-col2a.plotly_chart(fig)
-
-fig, ax = plt.subplots(figsize=(8,6))
-sns.scatterplot(df_forest, x='X', y='Y', hue="Logarea", size="Logarea",sizes=(50,500))
-col2b.subheader("2D Distribution of Burned Area")
-col2b.pyplot(fig)
-
-col2.divider()
-###################################################################################################
-col2.header("Temperature vs. Burned Area in Forest Fires")
-col2.markdown('<p class="font_text"> When we visualize the relationship between the burned area and temperature, it is evident that as the temperature rises, the area affected by fires tends to increase. Additionally, by segmenting the data into different quarters, we can gain insights into how fire occurrences vary across specific months. </p>', unsafe_allow_html=True)
-df_forest['quarter'] = df_forest['quarter'].astype('category')
-color_map1 = {
-    'Q1: Jan-Mar': "red",     
-    'Q2: Apr-Jun': "blue",    
-    'Q3: Jul-Sep': "orange",   
-    'Q4: Oct-Dec': "brown" }
-fig = px.scatter(df_forest, 
-                 x="temp", 
-                 y="Logarea", 
-                 color="quarter",
-                 size="Logarea",
-                 hover_data=['wind', 'rain'],
-                 color_discrete_map= color_map1)
-                 #title="Temperature vs. Burned Area in Forest Fires")
-col2.plotly_chart(fig)
-
-col2.divider()
-###################################################################################################
-
-col2.header("Contour Plot Showing Influence on Burned Area")
-col2.markdown('<p class="font_text"> From the previous visualization, the direct relationship between weather indicators and the extent of burned areas was not immediately clear. Hence, we decided to focus on pairs of weather features, visualizing them through 2D contour plots. This approach aims to provide a clearer perspective on their combined influence on forest fires. </p>', unsafe_allow_html=True)
-
-col2a,col2b = col2.columns([1,3])
-option1 = col2a.selectbox('Feature 1', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =1)
-option2 = col2a.selectbox('Feature 2', ('FFMC','DMC','DC','ISI','temp','RH','wind','rain'),index =2)
-
-fig = px.density_contour(df_forest, x=option1, y= option2, z='area',histfunc="avg",
-                         labels={'area': 'Burned Area'},width=800, height=600)
-fig.update_traces(contours_coloring="fill", contours_showlabels = True,colorscale='Spectral')
-col2b.plotly_chart(fig)
 ####################################################################################################################################################################
 #Reference
 st.markdown('<p class="font_header">References: </p>', unsafe_allow_html=True)
