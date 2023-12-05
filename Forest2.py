@@ -189,7 +189,7 @@ with tab3:
                                         ['FFMC','DMC','DC','ISI','temp','RH','wind','rain'], default = 'temp')
     X = df_forest_scaler[Feature_Variable]
     y = df_forest_scaler['Logarea']
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
     Index=np.linspace(0,y_test.size-1,y_test.size).astype(int)
 
     if Scaler:
@@ -216,9 +216,9 @@ with tab3:
     st.write('For linear regression methods ', 'the Mean Squared Error is  ',np.round(lin_reg_mse),'.')
     Linear_Dataframe=pd.DataFrame(index=np.arange(len(y_test)), columns=np.arange(3))
     Linear_Dataframe.columns=['Index','Actual','Predict']
-    Linear_Dataframe.iloc[:,0]=Index
-    Linear_Dataframe.iloc[:,1]=y_test
-    Linear_Dataframe.iloc[:,2]=lin_reg_predictions
+    Linear_Dataframe['Index'] = Index
+    Linear_Dataframe['Actual'] = y_test.reset_index(drop=True)
+    Linear_Dataframe['Predict'] = lin_reg_predictions
 
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=Linear_Dataframe['Index'], y=Linear_Dataframe['Actual'],marker_symbol='square',
