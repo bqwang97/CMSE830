@@ -379,10 +379,10 @@ with tab6:
     col1 , col2, col3,col4= st.columns(4,gap='small')
     Kernel_SVM = col1.selectbox('Choose the kernel type',['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'],index = 2)
     CValue_SVM = col2.number_input('Input a value for C:',value=1,format='%f')
-    epsilon_SVM = col3.number_input('Input a value for C:',value=0.1,format='%f')
+    epsilon_SVM = col3.number_input('Input a value for epsilon:',value=0.1,format='%f')
     SVM_Object = SVR(kernel= Kernel_SVM, C = CValue_SVM, epsilon = epsilon_SVM)
 
-    Scaler_Type_SVM = col4.selectbox('Select RF scaler object:',['Min-Max Scaler', 'Standard Scaler'],index = 1)
+    Scaler_Type_SVM = col4.selectbox('Select SVM scaler object:',['Min-Max Scaler', 'Standard Scaler'],index = 1)
     if Scaler_Type_SVM == 'Min-Max Scaler':
         Scaler_Object_SVM = MinMaxScaler()
     elif Scaler_Type_SVM == 'Standard Scaler':
