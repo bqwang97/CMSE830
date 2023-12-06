@@ -428,14 +428,19 @@ with tab7:
     rf_std = np.std(rf_cv_scores)
 
     models = ['SVM', 'Random Forest']
-
     # Means and standard deviations
     means = [svm_mean, rf_mean]
     stds = [svm_std, rf_std]
     
-    # Create bar chart
-    plt.bar(models, means, yerr=stds, alpha=0.7, color=['blue', 'green'], capsize=10)
-    st.plotly_chart(plt)
+    fig4 = go.Figure(data=[go.Bar(name='Mean', x=models, y=means, error_y=dict(type='data', array=stds), marker_color=['blue', 'green'])])
+    # Update layout for better visualization
+    fig4.update_layout(title='Model Performance Comparison',
+                      xaxis_title='Model',
+                      yaxis_title='Cross-Validation Score',
+                      showlegend=False)
+    
+    # Display the figure in Streamlit
+    st.plotly_chart(fig4, use_container_width=True)
 #########################################################################################################################################
 #Reference
 st.markdown('<p class="font_header">References: </p>', unsafe_allow_html=True)
