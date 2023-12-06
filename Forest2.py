@@ -285,6 +285,7 @@ with tab4:
 ####################################################################################################################################################################
 # Neural Network Regression
 with tab5:
+    st.markdown('<p class="font_header"> Neural Network Regression:</p>', unsafe_allow_html=True)
     Feature_Variable_DNN = st.multiselect('Select feature(s) for Neural Network Regression:',
                                         ['FFMC','DMC','DC','ISI','temp','RH','wind','rain'], default = 'temp')
     Target_Variable_DNN = df_forest_scaler['Logarea']
@@ -363,7 +364,6 @@ with tab5:
                             mode='markers',
                             name='Prediction '))
     st.plotly_chart(fig2)    
-    st.markdown('<p class="font_text">Learning curve based on the above hyper-parameters:</p>', unsafe_allow_html=True)
 ####################################################################################################################################################################
 # Support Vector Machines
 with tab6:
@@ -418,5 +418,5 @@ with tab6:
 #########################################################################################################################################
 #Reference
 st.markdown('<p class="font_header">References: </p>', unsafe_allow_html=True)
-st.markdown('<p class="font_text">1) Cortez, P., & Morais, A. D. J. R. (2007). A data mining approach to predict forest fires using meteorological data. </p>', unsafe_allow_html=True)
-st.markdown('<p class="font_text">1) Mahyar Abedi. https://second-part---data-science-project-bj6pdddikzwtrr9rdgys6r.streamlit.app/ </p>', unsafe_allow_html=True)
+st.markdown('<p class="font_text"> 1) Cortez, P., & Morais, A. D. J. R. (2007). A data mining approach to predict forest fires using meteorological data. </p>', unsafe_allow_html=True)
+st.markdown('<p class="font_text"> 2) Mahyar Abedi. https://second-part---data-science-project-bj6pdddikzwtrr9rdgys6r.streamlit.app/ </p>', unsafe_allow_html=True)
