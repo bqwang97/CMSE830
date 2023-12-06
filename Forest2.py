@@ -51,7 +51,7 @@ font-size:18px ; font-family: "Times New Roman" ; color: black;text-align: cente
 ####################################################################################################################################################################
 st.image("https://www.greenpeace.org/static/planet4-international-stateless/2022/09/fbc851c4-gp1szphr_.jpg", width=700)
 ####################################################################################################################################################################
-tab1, tab2 , tab3 , tab4 ,tab5 , tab6 , tab7= st.tabs(["Forest Fires Dataset", "Interactive Visualization","Regression Models","Neural Network Visualization","Neural Network Regression","",""])
+tab1, tab2 , tab3 , tab4 ,tab5 , tab6 , tab7= st.tabs(["Forest Fires Dataset", "Interactive Visualization","Linear Regression","Random Forest","Neural Network Regression","Support Vector Machines",""])
 ####################################################################################################################################################################
 ##Forest Fires Dataset 
 with tab1:                                                        
