@@ -377,7 +377,7 @@ with tab6:
     X_svm_train, X_svm_test, y_svm_train, y_svm_test = train_test_split(X_svm, y_svm, test_size=0.2)
 
     col1 , col2, col3,col4= st.columns(4,gap='small')
-    Kernel_SVM = col2.selectbox('Choose the kernel type',[‘linear’, ‘poly’, ‘rbf’, ‘sigmoid’, ‘precomputed’],index = 0)
+    Kernel_SVM = col2.selectbox('Choose the kernel type',['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'],index = 0)
     C_SVM = col3.slider('Input a value for C', 0.1, 20, 0.1)
     epsilon_SVM = col4.slider('Input a value for epsilon', 0.1, 5, 0.1)
     SVM_Object = SVR(kernel= Kernel_SVM, C = C_SVM, epsilon = epsilon_SVM)
