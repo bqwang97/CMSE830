@@ -19,6 +19,7 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF, RationalQuadratic, Matern, ExpSineSquared,DotProduct
 from sklearn.multioutput import MultiOutputRegressor
+from sklearn.model_selection import cross_val_score
 
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -217,8 +218,8 @@ with tab3:
         lin_reg_predictions = Linear_Regression_Object.predict(X_test)
         lin_reg_mse = mean_squared_error(y_test, lin_reg_predictions)
         lin_reg_r2 = r2_score(y_test, lin_reg_predictions)
-    st.write('For linear regression methods ', 'the accuracy score based on r2 ',np.round(lin_reg_r2),'.')
-    st.write('For linear regression methods ', 'the Mean Squared Error is  ',np.round(lin_reg_mse),'.')
+    st.write('For linear regression methods ', 'the accuracy score based on r2 ',lin_reg_r2,'.')
+    st.write('For linear regression methods ', 'the Mean Squared Error is  ',lin_reg_mse,'.')
     Linear_Dataframe=pd.DataFrame(index=np.arange(len(y_test)), columns=np.arange(3))
     Linear_Dataframe.columns=['Index','Actual','Predict']
     Linear_Dataframe['Index'] = Index
@@ -395,8 +396,8 @@ with tab6:
     SVM_reg_predictions = SVM_Object.predict(X_svm_test_scaled)
     svm_reg_mse = mean_squared_error(y_svm_test, SVM_reg_predictions)
     svm_reg_r2 = r2_score(y_svm_test, SVM_reg_predictions)
-    st.write('For SVM regression methods ', 'the accuracy score based on r2 ',np.round(svm_reg_r2),'.')
-    st.write('For SVM regression methods ', 'the Mean Squared Error is  ',np.round(svm_reg_mse),'.')
+    st.write('For SVM regression methods ', 'the accuracy score based on r2 ',svm_reg_r2,'.')
+    st.write('For SVM regression methods ', 'the Mean Squared Error is  ',svm_reg_mse,'.')
 
     Index_svm=np.linspace(0,y_svm_test.size-1,y_svm_test.size).astype(int)
     SVM_Dataframe=pd.DataFrame(index=np.arange(len(y_svm_test)), columns=np.arange(3))
@@ -415,6 +416,26 @@ with tab6:
 
     st.plotly_chart(fig3)
     
+#########################################################################################################################################
+with tab7:
+    CV_fold = st.number_input('Input a value for cv:',value=5,format='%f')
+    svm_cv_scores = cross_val_score(SVM_Object, X_svm, y_svm, cv=CV_fold)
+    rf_cv_scores = cross_val_score(Random_Forest_Object, X_rf, y_rf, cv=CV_fold)
+
+    svm_mean = np.mean(svm_cv_scores)
+    svm_std = np.std(svm_cv_scores)
+    rf_mean = np.mean(rf_cv_scores)
+    rf_std = np.std(rf_cv_scores)
+
+    models = ['SVM', 'Random Forest']
+
+    # Means and standard deviations
+    means = [svm_mean, rf_mean]
+    stds = [svm_std, rf_std]
+    
+    # Create bar chart
+    plt.bar(models, means, yerr=stds, alpha=0.7, color=['blue', 'green'], capsize=10)
+    st.plotly_chart(plt)
 #########################################################################################################################################
 #Reference
 st.markdown('<p class="font_header">References: </p>', unsafe_allow_html=True)
