@@ -367,7 +367,7 @@ with tab5:
 ####################################################################################################################################################################
 # Support Vector Machines
 with tab6:
-    st.markdown('<p class="font_header">Random Forest:</p>', unsafe_allow_html=True)
+    st.markdown('<p class="font_header"> Support Vector Machines:</p>', unsafe_allow_html=True)
     
     Feature_Variable_SVM = st.multiselect('Select feature(s) for SVR:',
                                         ['FFMC','DMC','DC','ISI','temp','RH','wind','rain'], default = 'temp')
@@ -378,9 +378,9 @@ with tab6:
 
     col1 , col2, col3,col4= st.columns(4,gap='small')
     Kernel_SVM = col1.selectbox('Choose the kernel type',['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'],index = 2)
-    C_SVM = col2.slider('Input a value for C', 0.1, 20, 1)
-    epsilon_SVM = col3.slider('Input a value for epsilon', 0.1, 5, 0.1)
-    SVM_Object = SVR(kernel= Kernel_SVM, C = C_SVM, epsilon = epsilon_SVM)
+    CValue_SVM = col2.number_input('Input a value for C:',value=1,format='%f')
+    epsilon_SVM = col3.number_input('Input a value for C:',value=0.1,format='%f')
+    SVM_Object = SVR(kernel= Kernel_SVM, C = CValue_SVM, epsilon = epsilon_SVM)
 
     Scaler_Type_SVM = col4.selectbox('Select RF scaler object:',['Min-Max Scaler', 'Standard Scaler'],index = 1)
     if Scaler_Type_SVM == 'Min-Max Scaler':
