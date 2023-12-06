@@ -49,14 +49,14 @@ font-size:18px ; font-family: "Times New Roman" ; color: black;text-align: cente
 </style> """, unsafe_allow_html=True)
 
 ####################################################################################################################################################################
+st.title("Forest Fires Preditiction")
 st.image("https://www.greenpeace.org/static/planet4-international-stateless/2022/09/fbc851c4-gp1szphr_.jpg", width=700)
 ####################################################################################################################################################################
-tab1, tab2 , tab3 , tab4 ,tab5 , tab6 , tab7= st.tabs(["Forest Fires Dataset", "Interactive Visualization","Linear Regression","Random Forest","Neural Network Regression","Support Vector Machines",""])
+tab1, tab2 , tab3 , tab4 ,tab5 , tab6 , tab7= st.tabs(["Forest Fires Dataset", "Interactive Visualizations","Linear Regression","Random Forest","Neural Network Regression","Support Vector Machines",""])
 ####################################################################################################################################################################
 ##Forest Fires Dataset 
 with tab1:                                                        
-    st.title("Exploring the Forest Fires Dataset")
-    ##st.subheader("Background")
+    st.subheader("Background")
     st.markdown('<p class="font_text">Considering the global warming, the increasing forest fires are more and more serious. </p>', unsafe_allow_html=True)
     st.markdown('<p class="font_text">The primary goal of analysis of dataset "Forestfires" is to understand the interplay of various meteorological and spatial factors that influence forest fires occurrence and magnitude. By doing so, we aim to answer the questions below: What are the most influential determinants that lead to forest fires, and how could we predict future outbreaks and spread of these fires? If we can solve these problems, we can take preventive measures to minimize the air pollution and surrounding damage caused by forest fires.</p>', unsafe_allow_html=True)
     st.markdown('<p class="font_text"> We choose the "Forestfires" dataset from UCI. This datasets provides a comprehensive view of both meteorological and spatial factors within the Montesinho park map, allowing for a detailed analysis of how these elements correlate with the extent of forest fires. The forestfires dataset originates from the Montesinho natural park in the Tra ́s-os-Montes northeast region of Portugal. The dataset was collected from January 2000 to December 2003 and it was built using two sources. There is no issue of missingness in the dataset. There are 516 rows and 13 columns in the dataset.</p>', unsafe_allow_html=True)
@@ -419,3 +419,4 @@ with tab6:
 #Reference
 st.markdown('<p class="font_header">References: </p>', unsafe_allow_html=True)
 st.markdown('<p class="font_text">1) Cortez, P., & Morais, A. D. J. R. (2007). A data mining approach to predict forest fires using meteorological data. </p>', unsafe_allow_html=True)
+st.markdown('<p class="font_text">1) Mahyar Abedi. https://second-part---data-science-project-bj6pdddikzwtrr9rdgys6r.streamlit.app/ </p>', unsafe_allow_html=True)
