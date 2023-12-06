@@ -405,7 +405,7 @@ with tab6:
     SVM_Dataframe['Actual'] = y_svm_test.reset_index(drop=True)
     SVM_Dataframe['Predict'] = SVM_reg_predictions
 
-    fig = go.Figure()
+    fig3 = go.Figure()
     fig3.add_trace(go.Scatter(x=SVM_Dataframe['Index'], y=SVM_Dataframe['Actual'],marker_symbol='square',
                         mode='markers',
                         name='Actual'))
