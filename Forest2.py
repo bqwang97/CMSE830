@@ -20,6 +20,9 @@ from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF, RationalQuadratic, Matern, ExpSineSquared,DotProduct
 from sklearn.multioutput import MultiOutputRegressor
 from sklearn.model_selection import cross_val_score
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.wrappers.scikit_learn import KerasRegressor
 
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -419,20 +422,34 @@ with tab6:
 #########################################################################################################################################
 with tab7:
     CV_fold = st.number_input('Input a value for cv:',value=5,format='%f')
+    linear_cv_scores = cross_val_score(Linear_Regression_Object, X, y, cv=CV_fold)
     svm_cv_scores = cross_val_score(SVM_Object, X_svm, y_svm, cv=CV_fold)
     rf_cv_scores = cross_val_score(Random_Forest_Object, X_rf, y_rf, cv=CV_fold)
 
+    def build_model():
+        model4 = Sequential()
+        model4.add(Dense(units=Num_Neuron_DNN, activation= Activation_DNN, input_dim=X_DNN.shape[1]))
+        model4.add(Dense(units=Num_Neuron_DNN, activation= Activation_DNN))
+        model4.compile(optimizer=Solver_DNN, loss='mean_squared_error')
+        return model4
+    NN_model = KerasRegressor(build_fn=build_model, epochs=Max_Iteration_DNN, batch_size=Batch_Size_DNN, verbose=0)
+    NN_cv_scores = cross_val_score(NN_model, X_DNN, Y_DNN, cv=CV_fold)
+    
     svm_mean = np.mean(svm_cv_scores)
     svm_std = np.std(svm_cv_scores)
     rf_mean = np.mean(rf_cv_scores)
     rf_std = np.std(rf_cv_scores)
-
-    models = ['SVM', 'Random Forest']
-    # Means and standard deviations
-    means = [svm_mean, rf_mean]
-    stds = [svm_std, rf_std]
+    linear_mean = np.mean(linear_cv_scores)
+    linear_std = np.std(linear_cv_scores)
+    NN_mean = np.mean(NN_cv_scores)
+    NN_std = np.std(NN_cv_scores)
     
-    fig4 = go.Figure(data=[go.Bar(name='Mean', x=models, y=means, error_y=dict(type='data', array=stds), marker_color=['blue', 'green'])])
+    models = ['Linear','SVM', 'Random Forest','Neural Network']
+    # Means and standard deviations
+    means = [linear_mean,svm_mean, rf_mean,NN_mean]
+    stds = [linear_std,svm_std, rf_std,NN_std]
+    
+    fig4 = go.Figure(data=[go.Bar(name='Mean', x=models, y=means, error_y=dict(type='data', array=stds)])
     # Update layout for better visualization
     fig4.update_layout(title='Model Performance Comparison',
                       xaxis_title='Model',
