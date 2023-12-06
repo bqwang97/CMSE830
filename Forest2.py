@@ -20,9 +20,9 @@ from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF, RationalQuadratic, Matern, ExpSineSquared,DotProduct
 from sklearn.multioutput import MultiOutputRegressor
 from sklearn.model_selection import cross_val_score
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.wrappers.scikit_learn import KerasRegressor
+#from keras.models import Sequential
+#from keras.layers import Dense
+#from keras.wrappers.scikit_learn import KerasRegressor
 
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -426,26 +426,26 @@ with tab7:
     svm_cv_scores = cross_val_score(SVM_Object, X_svm, y_svm, cv=CV_fold)
     rf_cv_scores = cross_val_score(Random_Forest_Object, X_rf, y_rf, cv=CV_fold)
 
-    def build_model():
-        model4 = Sequential()
-        model4.add(Dense(units=Num_Neuron_DNN, activation= Activation_DNN, input_dim=X_DNN.shape[1]))
-        model4.add(Dense(units=Num_Neuron_DNN, activation= Activation_DNN))
-        model4.compile(optimizer=Solver_DNN, loss='mean_squared_error')
-        return model4
-    NN_model = KerasRegressor(build_fn=build_model, epochs=Max_Iteration_DNN, batch_size=Batch_Size_DNN, verbose=0)
-    NN_cv_scores = cross_val_score(NN_model, X_DNN, Y_DNN, cv=CV_fold)
+    #def build_model():
+        #model4 = Sequential()
+        #model4.add(Dense(units=Num_Neuron_DNN, activation= Activation_DNN, input_dim=X_DNN.shape[1]))
+        #model4.add(Dense(units=Num_Neuron_DNN, activation= Activation_DNN))
+        #model4.compile(optimizer=Solver_DNN, loss='mean_squared_error')
+        #return model4
+    #NN_model = KerasRegressor(build_fn=build_model, epochs=Max_Iteration_DNN, batch_size=Batch_Size_DNN, verbose=0)
+    #NN_cv_scores = cross_val_score(NN_model, X_DNN, Y_DNN, cv=CV_fold)
     
     svm_mean = np.mean(svm_cv_scores)
     svm_std = np.std(svm_cv_scores)
     rf_mean = np.mean(rf_cv_scores)
     rf_std = np.std(rf_cv_scores)
-    nn_mean = np.mean(NN_cv_scores)
-    nn_std = np.std(NN_cv_scores)
+    #nn_mean = np.mean(NN_cv_scores)
+    #nn_std = np.std(NN_cv_scores)
     linear_mean = np.mean(linear_cv_scores)
     linear_std = np.std(linear_cv_scores)
     
     
-    models = ['Linear','SVM', 'Random Forest','Neural Network']
+    models = ['Linear','SVM', 'Random Forest']
     # Means and standard deviations
     means = [linear_mean,svm_mean, rf_mean,nn_mean]
     stds = [linear_std,svm_std, rf_std,nn_std]
