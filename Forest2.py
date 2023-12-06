@@ -263,8 +263,8 @@ with tab4:
     rf_reg_predictions = Random_Forest_Object.predict(X_rf_test_scaled)
     rf_reg_mse = mean_squared_error(y_rf_test, rf_reg_predictions)
     rf_reg_r2 = r2_score(y_rf_test, rf_reg_predictions)
-    st.write('For random forest regression methods ', 'the accuracy score based on r2 ',np.round(rf_reg_r2),'.')
-    st.write('For random forest regression methods ', 'the Mean Squared Error is  ',np.round(rf_reg_mse),'.')
+    st.write('For random forest regression methods ', 'the accuracy score based on r2 ',rf_reg_r2,'.')
+    st.write('For random forest regression methods ', 'the Mean Squared Error is  ',rf_reg_mse,'.')
 
     Index_rf=np.linspace(0,y_rf_test.size-1,y_rf_test.size).astype(int)
     RF_Dataframe=pd.DataFrame(index=np.arange(len(y_rf_test)), columns=np.arange(3))
