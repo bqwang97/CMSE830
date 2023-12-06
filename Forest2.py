@@ -369,7 +369,7 @@ with tab5:
 with tab6:
     st.markdown('<p class="font_header">Random Forest:</p>', unsafe_allow_html=True)
     
-    Feature_Variable_SVM = st.multiselect('Select feature(s) for Neural Network Regression:',
+    Feature_Variable_SVM = st.multiselect('Select feature(s) for SVR:',
                                         ['FFMC','DMC','DC','ISI','temp','RH','wind','rain'], default = 'temp')
     
     X_svm = df_forest_scaler[Feature_Variable_SVM]
