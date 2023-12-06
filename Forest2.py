@@ -450,7 +450,7 @@ with tab7:
     means = [linear_mean,svm_mean, rf_mean,nn_mean]
     stds = [linear_std,svm_std, rf_std,nn_std]
     
-    fig4 = go.Figure(data=[go.Bar(name='Mean', x=models, y=means, error_y=dict(type='data', array=stds)])
+    fig4 = go.Figure(data=[go.Bar(name='Mean', x=models, y=means, error_y=dict(type='data', array=stds))])
     # Update layout for better visualization
     fig4.update_layout(title='Model Performance Comparison',
                       xaxis_title='Model',
