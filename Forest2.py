@@ -255,11 +255,11 @@ with tab4:
         Scaler_Object_rf = MinMaxScaler()
     elif Scaler_Type_rf == 'Standard Scaler':
         Scaler_Object_rf = StandardScaler()
-    Scaler_Object_rf.fit(X_rf_train)    
-    X_rf_train_scaled = Scaler_Object_rf.transform(X_rf_train)
+    Scaler_Object_rf.fit(X_rf)    
+    X_rf_train_scaled = Scaler_Object_rf.transform(X_rf)
     X_rf_test_scaled = Scaler_Object_rf.transform(X_rf_test)
     
-    Random_Forest_Object.fit(X_rf_train_scaled, y_rf_train)
+    Random_Forest_Object.fit(X_rf_train_scaled, y_rf)
     rf_reg_predictions = Random_Forest_Object.predict(X_rf_test_scaled)
     rf_reg_mse = mean_squared_error(y_rf_test, rf_reg_predictions)
     rf_reg_r2 = r2_score(y_rf_test, rf_reg_predictions)
