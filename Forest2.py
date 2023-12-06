@@ -439,15 +439,16 @@ with tab7:
     svm_std = np.std(svm_cv_scores)
     rf_mean = np.mean(rf_cv_scores)
     rf_std = np.std(rf_cv_scores)
+    nn_mean = np.mean(NN_cv_scores)
+    nn_std = np.std(NN_cv_scores)
     linear_mean = np.mean(linear_cv_scores)
     linear_std = np.std(linear_cv_scores)
-    NN_mean = np.mean(NN_cv_scores)
-    NN_std = np.std(NN_cv_scores)
+    
     
     models = ['Linear','SVM', 'Random Forest','Neural Network']
     # Means and standard deviations
-    means = [linear_mean,svm_mean, rf_mean,NN_mean]
-    stds = [linear_std,svm_std, rf_std,NN_std]
+    means = [linear_mean,svm_mean, rf_mean,nn_mean]
+    stds = [linear_std,svm_std, rf_std,nn_std]
     
     fig4 = go.Figure(data=[go.Bar(name='Mean', x=models, y=means, error_y=dict(type='data', array=stds)])
     # Update layout for better visualization
