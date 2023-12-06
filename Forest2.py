@@ -184,7 +184,7 @@ with tab2:
     col2.subheader("2D Distribution of Burned Area")
     col2.pyplot(fig)
 ####################################################################################################################################################################
-#Regression Models
+#Linear Regression
 with tab3:
     st.markdown('<p class="font_header">Linear Regression:</p>', unsafe_allow_html=True)
     Scaler = st.checkbox('Applying Scaler object for linear regression fitting')
@@ -235,8 +235,9 @@ with tab3:
 
     st.plotly_chart(fig)
 
-
-    
+################################################################################################################################
+# Random forest
+with tab4:    
     st.markdown('<p class="font_header">Random Forest:</p>', unsafe_allow_html=True)
     col1 , col2, col3,col4= st.columns(4,gap='small')
     Feature_Variable2 = col1.multiselect('Select feature(s) for random forest model:',
@@ -283,7 +284,7 @@ with tab3:
     st.plotly_chart(fig)
 ####################################################################################################################################################################
 # Neural Network Regression
-with tab4:
+with tab5:
     Feature_Variable_DNN = st.multiselect('Select feature(s) for Neural Network Regression:',
                                         ['FFMC','DMC','DC','ISI','temp','RH','wind','rain'], default = 'temp')
     Target_Variable_DNN = df_forest_scaler['Logarea']
@@ -364,6 +365,57 @@ with tab4:
     st.plotly_chart(fig2)    
     st.markdown('<p class="font_text">Learning curve based on the above hyper-parameters:</p>', unsafe_allow_html=True)
 ####################################################################################################################################################################
+# Support Vector Machines
+with tab6:
+    st.markdown('<p class="font_header">Random Forest:</p>', unsafe_allow_html=True)
+    
+    Feature_Variable_SVM = st.multiselect('Select feature(s) for Neural Network Regression:',
+                                        ['FFMC','DMC','DC','ISI','temp','RH','wind','rain'], default = 'temp')
+    
+    X_svm = df_forest_scaler[Feature_Variable_SVM]
+    y_svm = df_forest_scaler['Logarea']
+    X_svm_train, X_svm_test, y_svm_train, y_svm_test = train_test_split(X_svm, y_svm, test_size=0.2)
+
+    col1 , col2, col3,col4= st.columns(4,gap='small')
+    Kernel_SVM = col2.selectbox('Choose the kernel type',[‘linear’, ‘poly’, ‘rbf’, ‘sigmoid’, ‘precomputed’],index = 0)
+    C_SVM = col3.slider('Input a value for C', 0.1, 20, 0.1)
+    epsilon_SVM = col4.slider('Input a value for epsilon', 0.1, 5, 0.1)
+    SVM_Object = SVR(kernel= Kernel_SVM, C = C_SVM, epsilon = epsilon_SVM)
+
+    Scaler_Type_SVM = col4.selectbox('Select RF scaler object:',['Min-Max Scaler', 'Standard Scaler'],index = 1)
+    if Scaler_Type_SVM == 'Min-Max Scaler':
+        Scaler_Object_SVM = MinMaxScaler()
+    elif Scaler_Type_SVM == 'Standard Scaler':
+        Scaler_Object_SVM = StandardScaler()
+    Scaler_Object_SVM.fit(X_svm_train)    
+    X_svm_train_scaled = Scaler_Object_SVM.transform(X_svm_train)
+    X_svm_test_scaled = Scaler_Object_SVM.transform(X_svm_test)
+    
+    SVM_Object.fit(X_svm_train_scaled, y_svm_train)
+    SVM_reg_predictions = SVM_Object.predict(X_svm_test_scaled)
+    svm_reg_mse = mean_squared_error(y_svm_test, SVM_reg_predictions)
+    svm_reg_r2 = r2_score(y_svm_test, SVM_reg_predictions)
+    st.write('For SVM regression methods ', 'the accuracy score based on r2 ',np.round(svm_reg_r2),'.')
+    st.write('For SVM regression methods ', 'the Mean Squared Error is  ',np.round(svm_reg_mse),'.')
+
+    Index_svm=np.linspace(0,y_svm_test.size-1,y_svm_test.size).astype(int)
+    SVM_Dataframe=pd.DataFrame(index=np.arange(len(y_svm_test)), columns=np.arange(3))
+    SVM_Dataframe.columns=['Index','Actual','Predict']
+    SVM_Dataframe['Index'] = Index_svm
+    SVM_Dataframe['Actual'] = y_svm_test.reset_index(drop=True)
+    SVM_Dataframe['Predict'] = SVM_reg_predictions
+
+    fig = go.Figure()
+    fig3.add_trace(go.Scatter(x=SVM_Dataframe['Index'], y=SVM_Dataframe['Actual'],marker_symbol='square',
+                        mode='markers',
+                        name='Actual'))
+    fig3.add_trace(go.Scatter(x=SVM_Dataframe['Index'], y=SVM_Dataframe['Predict'],marker_symbol='circle',
+                        mode='markers',
+                        name='Prediction'))
+
+    st.plotly_chart(fig3)
+    
+#########################################################################################################################################
 #Reference
 st.markdown('<p class="font_header">References: </p>', unsafe_allow_html=True)
 st.markdown('<p class="font_text">1) Cortez, P., & Morais, A. D. J. R. (2007). A data mining approach to predict forest fires using meteorological data. </p>', unsafe_allow_html=True)
